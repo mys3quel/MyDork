@@ -16,7 +16,6 @@
       { "title": "CRT.sh HTML", "url": "https://crt.sh/?q={wc}{domain}", "dot": "purple" },
       { "title": "CRT.sh (dedup)", "url": "https://crt.sh/?q={wc}{domain}&deduplicate=Y", "dot": "purple" },
       { "title": "CRT.sh (no expired)", "url": "https://crt.sh/?q={wc}{domain}&exclude=expired", "dot": "purple" },
-      { "title": "CertSpotter API", "url": "https://sslmate.com/certspotter/api/v0/certs?domain={domain}", "dot": "blue" },
       { "title": "RapidDNS", "url": "https://rapiddns.io/subdomain/{domain}?full=1", "dot": "blue" },
       { "title": "AlienVault OTX", "url": "https://otx.alienvault.com/indicator/domain/{domain}", "dot": "blue" },
       { "title": "SecurityTrails", "url": "https://securitytrails.com/domain/{domain}", "dot": "blue" },
