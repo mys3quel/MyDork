@@ -193,7 +193,8 @@
       { "title": "BuiltWith", "url": "https://builtwith.com/{domain}", "dot": "blue" },
       { "title": "Wappalyzer", "url": "https://www.wappalyzer.com/lookup/{domain}", "dot": "blue" },
       { "title": "GrayHatWarfare S3 buckets", "url": "https://buckets.grayhatwarfare.com/results/{domain}", "dot": "blue" },
-      { "title": "CommonCrawl (latest)", "url": "https://index.commoncrawl.org/CC-MAIN-2025-22-index?url=*.{domain}/*&output=json", "dot": "blue" }
+      { "title": "CommonCrawl (2026)", "url": "https://index.commoncrawl.org/CC-MAIN-2026-17-index?url=*.{domain}/*&output=json", "dot": "blue" },
+      { "title": "CommonCrawl (list all crawls)", "url": "https://index.commoncrawl.org/", "dot": "blue" }
     ]
   }
 }
