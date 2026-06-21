@@ -6,6 +6,7 @@
     { "id": "google_panels", "icon": "🕵️", "name": "Google — Panels, APIs & Dev Envs" },
     { "id": "google_leaks", "icon": "🩺", "name": "Google — Secrets & Info Leaks" },
     { "id": "yandex", "icon": "🇷🇺", "name": "Yandex — Same Dorks, Different Index" },
+    { "id": "duckduckgo", "icon": "🦆", "name": "DuckDuckGo — Privacy-Friendly Index" },
     { "id": "shodan", "icon": "🛰️", "name": "Shodan, Censys & URLScan" },
     { "id": "recon", "icon": "🌐", "name": "External Recon Sources" }
   ],
@@ -19,7 +20,7 @@
       { "title": "RapidDNS", "url": "https://rapiddns.io/subdomain/{domain}?full=1", "dot": "blue" },
       { "title": "AlienVault OTX", "url": "https://otx.alienvault.com/indicator/domain/{domain}", "dot": "blue" },
       { "title": "SecurityTrails", "url": "https://securitytrails.com/domain/{domain}", "dot": "blue" },
-      { "title": "DNSDumpster", "url": "https://dnsdumpster.com/", "dot": "blue" }
+      { "title": "DNSDumpster", "url": "https://dnsdumpster.com/?domain={domain}", "dot": "blue" }
     ],
 
     "github": [
@@ -152,6 +153,28 @@
       { "title": "Stack traces", "query": "\"stack trace\"", "type": "yandex", "dot": "red" },
       { "title": "Django DEBUG mode", "query": "\"DEBUG = True\" \"SECRET_KEY\"", "type": "yandex", "dot": "red" },
       { "title": "Non-WWW subdomains", "query": "-inurl:www", "type": "yandex", "dot": "teal" }
+    ],
+
+    "duckduckgo": [
+      { "title": "Login pages", "query": "inurl:login", "type": "duckduckgo", "dot": "teal" },
+      { "title": "Admin panels", "query": "inurl:admin", "type": "duckduckgo", "dot": "teal" },
+      { "title": ".env files in URL", "query": "inurl:.env", "type": "duckduckgo", "dot": "orange" },
+      { "title": "SQL dumps in URL", "query": "inurl:.sql \"INSERT INTO\"", "type": "duckduckgo", "dot": "orange" },
+      { "title": "Log files in URL", "query": "inurl:.log", "type": "duckduckgo", "dot": "orange" },
+      { "title": "Backup files in URL", "query": "inurl:.bak OR inurl:.tar.gz", "type": "duckduckgo", "dot": "orange" },
+      { "title": "YAML configs in URL", "query": "inurl:.yml OR inurl:.yaml", "type": "duckduckgo", "dot": "orange" },
+      { "title": "JSON configs w/ secrets", "query": "inurl:.json \"password\" OR \"secret\" OR \"key\"", "type": "duckduckgo", "dot": "orange" },
+      { "title": "Dev environments", "query": "inurl:dev.", "type": "duckduckgo", "dot": "teal" },
+      { "title": "Staging environments", "query": "inurl:staging.", "type": "duckduckgo", "dot": "teal" },
+      { "title": "Sandbox environments", "query": "inurl:sandbox.", "type": "duckduckgo", "dot": "teal" },
+      { "title": "Test environments", "query": "inurl:test.", "type": "duckduckgo", "dot": "teal" },
+      { "title": "RSA private keys", "query": "\"-----BEGIN RSA PRIVATE KEY-----\"", "type": "duckduckgo", "dot": "red" },
+      { "title": "OpenSSH private keys", "query": "\"-----BEGIN OPENSSH PRIVATE KEY-----\"", "type": "duckduckgo", "dot": "red" },
+      { "title": "Stack traces", "query": "\"stack trace\"", "type": "duckduckgo", "dot": "red" },
+      { "title": "PHP info pages", "query": "intitle:\"phpinfo()\"", "type": "duckduckgo", "dot": "red" },
+      { "title": "Spring Boot Actuators", "query": "inurl:actuator", "type": "duckduckgo", "dot": "teal" },
+      { "title": "Swagger / OpenAPI docs", "query": "inurl:swagger OR inurl:api-docs", "type": "duckduckgo", "dot": "teal" },
+      { "title": "Non-WWW subdomains", "query": "-inurl:www", "type": "duckduckgo", "dot": "teal" }
     ],
 
     "shodan": [

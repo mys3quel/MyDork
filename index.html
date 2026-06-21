@@ -14,15 +14,47 @@
 html { scroll-behavior: smooth; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.5; font-size: 14px; }
 .app { display:flex; min-height:100vh; }
-.sidebar { width: 230px; background: var(--bg2); border-right: 1px solid var(--border); padding: 1.5rem 1rem; position: sticky; top:0; height:100vh; overflow-y:auto; flex-shrink:0; }
+
+/* SIDEBAR */
+.sidebar { width: 230px; background: var(--bg2); border-right: 1px solid var(--border); padding: 1.5rem 1rem; position: sticky; top:0; height:100vh; overflow-y:auto; flex-shrink:0; z-index:100; }
 .main { flex:1; padding: 1.5rem 2rem; max-width: 1050px; }
-.sidebar .logo { font-size:1rem; font-weight:700; background: linear-gradient(135deg, var(--accent), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:2rem; display:block; text-decoration:none; line-height:1.3; }
-.nav-item { display:flex; align-items:center; gap:0.5rem; padding:0.5rem 0.7rem; border-radius:6px; color:var(--muted); text-decoration:none; font-size:0.85rem; margin-bottom:0.15rem; cursor:pointer; transition:all 0.15s; }
+.sidebar .logo { font-size:1rem; font-weight:700; background: linear-gradient(135deg, var(--accent), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:1.5rem; display:block; text-decoration:none; line-height:1.3; }
+.nav-item { display:flex; align-items:center; gap:0.5rem; padding:0.45rem 0.7rem; border-radius:6px; color:var(--muted); text-decoration:none; font-size:0.82rem; margin-bottom:0.1rem; cursor:pointer; transition:all 0.15s; }
 .nav-item:hover { background:rgba(88,166,255,0.06); color:var(--text); }
-.nav-item .badge { margin-left:auto; background:var(--border); color:var(--muted); font-size:0.65rem; padding:0.1rem 0.4rem; border-radius:8px; font-weight:500; }
+.nav-item .badge { margin-left:auto; background:var(--border); color:var(--muted); font-size:0.65rem; padding:0.1rem 0.4rem; border-radius:8px; font-weight:500; min-width:1.3rem; text-align:center; }
+.sidebar-divider { border-top:1px solid var(--border); margin:0.8rem 0; }
+.sidebar-btn { display:block; width:100%; padding:0.4rem 0.7rem; margin-bottom:0.25rem; border:1px solid var(--border); border-radius:5px; background:transparent; color:var(--muted); font-size:0.75rem; cursor:pointer; text-align:left; transition:all 0.15s; font-family:inherit; }
+.sidebar-btn:hover { border-color:var(--accent); color:var(--text); }
+
+/* HAMBURGER (mobile) */
+.hamburger { display:none; position:fixed; top:0.7rem; left:0.7rem; z-index:200; background:var(--surface); border:1px solid var(--border); color:var(--text); font-size:1.2rem; width:2.2rem; height:2.2rem; border-radius:6px; cursor:pointer; align-items:center; justify-content:center; }
+.sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:99; }
 
 /* SCOPE BAR */
-.scope-bar { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:1rem 1.2rem 0.8rem; margin-bottom:1.5rem; position: relative; }
+.scope-bar { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:1rem 1.2rem 0.8rem; margin-bottom:1rem; position:relative; }
+.add-row { display:flex; gap:0.4rem; align-items:flex-end; flex-wrap:wrap; }
+.add-row > div { flex:1; min-width:110px; }
+.add-row label { display:block; font-size:0.65rem; color:var(--muted); margin-bottom:0.15rem; font-weight:500; text-transform:uppercase; letter-spacing:0.05em; }
+.add-row input, .add-row select {
+  width:100%; padding:0.45rem 0.5rem; border:1px solid var(--border); border-radius:5px;
+  background:var(--bg); color:var(--text); font-size:0.82rem; font-family:monospace;
+  transition: border-color 0.2s;
+}
+.add-row input:focus, .add-row select:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 2px rgba(88,166,255,0.12); }
+.add-row select { font-family:inherit; cursor:pointer; }
+.btn { padding:0.45rem 0.9rem; border:1px solid var(--accent); border-radius:5px; background:var(--accent); color:#fff; cursor:pointer; font-size:0.78rem; font-weight:600; white-space:nowrap; transition:all 0.15s; font-family:inherit; }
+.btn:hover { background:#4090e0; }
+.btn.ghost { background:transparent; color:var(--muted); border-color:var(--border); }
+.btn.ghost:hover { border-color:var(--red); color:var(--red); }
+.btn.small { padding:0.3rem 0.6rem; font-size:0.7rem; }
+
+/* BULK ADD */
+.bulk-toggle { font-size:0.72rem; color:var(--accent); cursor:pointer; margin-top:0.5rem; display:inline-block; user-select:none; }
+.bulk-area { display:none; width:100%; margin-top:0.5rem; padding:0.5rem; border:1px solid var(--border); border-radius:5px; background:var(--bg); color:var(--text); font-family:monospace; font-size:0.78rem; resize:vertical; min-height:80px; }
+.bulk-area:focus { outline:none; border-color:var(--accent); }
+.bulk-area.visible { display:block; }
+.bulk-actions { display:none; gap:0.4rem; margin-top:0.4rem; }
+.bulk-actions.visible { display:flex; }
 
 /* TABS */
 .tab-row { display:flex; gap:0.3rem; flex-wrap:wrap; margin-bottom:0.8rem; }
@@ -34,7 +66,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 }
 .tab:hover { border-color:var(--accent); color:var(--text); }
 .tab.active { background:var(--accent); color:#fff; border-color:var(--accent); font-weight:600; }
-.tab.all-tab { font-family: inherit; font-weight:600; }
+.tab.all-tab { font-family:inherit; font-weight:600; }
 .tab .tab-type { font-size:0.6rem; padding:0.08rem 0.3rem; border-radius:6px; font-weight:600; text-transform:uppercase; }
 .tab.active .tab-type { background:rgba(255,255,255,0.2); }
 .tab:not(.active) .tab-type-wc { background:rgba(163,113,247,0.15); color:var(--purple); }
@@ -44,33 +76,19 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 .tab .tab-rm:hover { opacity:1; }
 .tab.active .tab-rm:hover { color:#ffb0b0; }
 
-/* ADD ROW */
-.add-row { display:flex; gap:0.4rem; align-items:flex-end; flex-wrap:wrap; }
-.add-row > div { flex:1; min-width:120px; }
-.add-row label { display:block; font-size:0.65rem; color:var(--muted); margin-bottom:0.15rem; font-weight:500; text-transform:uppercase; letter-spacing:0.05em; }
-.add-row input, .add-row select {
-  width:100%; padding:0.45rem 0.5rem; border:1px solid var(--border); border-radius:5px;
-  background:var(--bg); color:var(--text); font-size:0.82rem; font-family:monospace;
-  transition: border-color 0.2s;
-}
-.add-row input:focus, .add-row select:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 2px rgba(88,166,255,0.12); }
-.add-row select { font-family: inherit; cursor:pointer; }
-.btn {
-  padding:0.45rem 0.9rem; border:1px solid var(--accent); border-radius:5px;
-  background:var(--accent); color:#fff; cursor:pointer; font-size:0.78rem; font-weight:600;
-  white-space:nowrap; transition:all 0.15s;
-}
-.btn:hover { background:#4090e0; }
-.btn.ghost { background:transparent; color:var(--muted); border-color:var(--border); }
-.btn.ghost:hover { border-color:var(--red); color:var(--red); }
+/* TOOLBAR (search + collapse) */
+.toolbar { display:flex; gap:0.5rem; align-items:center; margin-bottom:0.8rem; flex-wrap:wrap; }
+.search-input { flex:1; min-width:180px; padding:0.45rem 0.6rem; border:1px solid var(--border); border-radius:5px; background:var(--bg); color:var(--text); font-size:0.82rem; font-family:monospace; }
+.search-input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 2px rgba(88,166,255,0.12); }
+.search-input::placeholder { color:var(--muted); }
+.toolbar-btn { padding:0.4rem 0.7rem; border:1px solid var(--border); border-radius:5px; background:var(--bg); color:var(--muted); cursor:pointer; font-size:0.72rem; white-space:nowrap; transition:all 0.15s; font-family:inherit; }
+.toolbar-btn:hover { border-color:var(--accent); color:var(--text); }
+.search-clear { display:none; position:absolute; right:0.5rem; top:50%; transform:translateY(-50%); cursor:pointer; color:var(--muted); font-size:1rem; }
+.search-wrap { position:relative; flex:1; min-width:180px; }
 
 /* ACTIVE INDICATOR */
-.active-indicator {
-  font-size:0.75rem; color:var(--muted); margin-bottom:0.8rem; padding:0.3rem 0;
-  border-bottom:1px solid var(--border);
-}
+.active-indicator { font-size:0.75rem; color:var(--muted); margin-bottom:0.5rem; padding:0.3rem 0; border-bottom:1px solid var(--border); }
 .active-indicator span { color:var(--accent); font-weight:600; }
-
 .empty-hint { text-align:center; color:var(--muted); padding:3rem; font-size:0.9rem; }
 
 /* CATEGORY SECTIONS */
@@ -85,6 +103,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 .cat-header.open .arrow { transform:rotate(90deg); }
 .cat-body { display:none; padding:0.7rem; }
 .cat-body.open { display:block; }
+.cat-section.hidden { display:none; }
 
 /* LINK GRID */
 .link-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:0.35rem; }
@@ -92,26 +111,56 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
   display:flex; align-items:center; gap:0.4rem;
   padding:0.5rem 0.6rem; background:var(--bg); border:1px solid var(--border);
   border-radius:5px; color:var(--text); text-decoration:none;
-  transition:all 0.12s; overflow:hidden;
+  transition:all 0.12s; overflow:hidden; position:relative;
 }
 .link-btn:hover { border-color:var(--accent); background:rgba(88,166,255,0.05); transform:translateX(2px); }
 .link-btn .link-body { flex:1; min-width:0; }
 .link-btn .link-title { font-size:0.8rem; font-weight:500; line-height:1.2; }
 .link-btn .link-sub { font-size:0.63rem; color:var(--muted); font-family:monospace; margin-top:0.1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.link-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; align-self: flex-start; margin-top:0.25rem; }
+.link-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; align-self:flex-start; margin-top:0.25rem; }
+.copy-btn {
+  display:none; position:absolute; right:0.3rem; top:0.3rem;
+  background:var(--surface); border:1px solid var(--border); border-radius:4px;
+  color:var(--muted); font-size:0.65rem; padding:0.15rem 0.3rem; cursor:pointer;
+  transition:all 0.1s; font-family:monospace;
+}
+.link-btn:hover .copy-btn { display:block; }
+.copy-btn:hover { border-color:var(--accent); color:var(--text); background:rgba(88,166,255,0.1); }
+.copy-btn.copied { color:var(--green); border-color:var(--green); }
 
 .dot-blue { background:var(--accent); } .dot-green { background:var(--green); }
 .dot-orange { background:var(--orange); } .dot-red { background:var(--red); }
 .dot-purple { background:var(--purple); } .dot-teal { background:var(--teal); }
 .dot-pink { background:var(--pink); }
 
-@media (max-width: 700px) { .sidebar { display:none; } .main { padding:1rem; } .link-grid { grid-template-columns:1fr; } }
+/* TOAST */
+.toast-container { position:fixed; bottom:1rem; left:50%; transform:translateX(-50%); z-index:300; display:flex; flex-direction:column; gap:0.4rem; align-items:center; }
+.toast { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:0.6rem 1rem; font-size:0.8rem; color:var(--text); display:flex; align-items:center; gap:0.7rem; box-shadow:0 4px 16px rgba(0,0,0,0.3); animation:toastIn 0.2s ease; }
+.toast.fadeout { animation:toastOut 0.2s ease forwards; }
+.toast .toast-undo { color:var(--accent); cursor:pointer; font-weight:600; font-size:0.75rem; }
+.toast .toast-undo:hover { text-decoration:underline; }
+@keyframes toastIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+@keyframes toastOut { from { opacity:1; transform:translateY(0); } to { opacity:0; transform:translateY(10px); } }
+
+/* MOBILE */
+@media (max-width: 700px) {
+  .hamburger { display:flex; }
+  .sidebar { position:fixed; left:-250px; top:0; height:100vh; transition:left 0.2s; z-index:101; }
+  .sidebar.open { left:0; }
+  .sidebar-overlay.show { display:block; }
+  .main { padding:1rem; padding-top:3rem; }
+  .link-grid { grid-template-columns:1fr; }
+  .add-row > div { min-width:80px; }
+}
 </style>
 </head>
 <body>
 <div class="app">
 
-<nav class="sidebar">
+<button class="hamburger" onclick="toggleSidebar()" title="Menu">☰</button>
+<div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
   <a href="#" class="logo">🏴‍☠️ MyDork</a>
   <div class="nav-item" onclick="scrollToCat('discovery')"><span>🔍</span> Subdomain Discovery<span class="badge" id="badge-discovery">0</span></div>
   <div class="nav-item" onclick="scrollToCat('github')"><span>🐙</span> GitHub Secrets<span class="badge" id="badge-github">0</span></div>
@@ -119,42 +168,97 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
   <div class="nav-item" onclick="scrollToCat('google_panels')"><span>🕵️</span> Google — Panels & Envs<span class="badge" id="badge-google_panels">0</span></div>
   <div class="nav-item" onclick="scrollToCat('google_leaks')"><span>🩺</span> Google — Secrets & Leaks<span class="badge" id="badge-google_leaks">0</span></div>
   <div class="nav-item" onclick="scrollToCat('yandex')"><span>🇷🇺</span> Yandex Dorks<span class="badge" id="badge-yandex">0</span></div>
+  <div class="nav-item" onclick="scrollToCat('duckduckgo')"><span>🦆</span> DuckDuckGo Dorks<span class="badge" id="badge-duckduckgo">0</span></div>
   <div class="nav-item" onclick="scrollToCat('shodan')"><span>🛰️</span> Shodan & Censys<span class="badge" id="badge-shodan">0</span></div>
   <div class="nav-item" onclick="scrollToCat('recon')"><span>🌐</span> External Recon<span class="badge" id="badge-recon">0</span></div>
+  <div class="sidebar-divider"></div>
+  <button class="sidebar-btn" onclick="exportScopes()">📤 Export scopes</button>
+  <button class="sidebar-btn" onclick="document.getElementById('importFile').click()">📥 Import scopes</button>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importScopes(event)">
+  <button class="sidebar-btn" style="border-color:var(--red);color:var(--red)" onclick="clearAll()">🗑 Clear all</button>
 </nav>
 
 <main class="main">
 
 <section class="scope-bar" id="cat-scope">
-  <!-- Tabs row -->
   <div class="tab-row" id="tabRow"></div>
-
-  <!-- Add row -->
   <div class="add-row">
     <div><label>Domain</label><input type="text" id="newDomain" placeholder="example.com" autocomplete="off"></div>
     <div><label>Type</label><select id="newType"><option value="wildcard">*.domain</option><option value="exact">domain.com</option></select></div>
     <div><label>GitHub Org</label><input type="text" id="newOrg" placeholder="optional" autocomplete="off"></div>
     <div><label>&nbsp;</label><button class="btn" onclick="addScope()">+ Add</button></div>
-    <div><label>&nbsp;</label><button class="btn ghost" onclick="clearAll()">Clear</button></div>
+  </div>
+  <span class="bulk-toggle" onclick="toggleBulk()">+ Bulk add (paste list)</span>
+  <textarea class="bulk-area" id="bulkArea" placeholder="example.com&#10;target.org&#10;api.target.io&#10;..."></textarea>
+  <div class="bulk-actions" id="bulkActions">
+    <button class="btn small" onclick="bulkAdd()">Add all</button>
+    <button class="btn ghost small" onclick="toggleBulk()">Cancel</button>
   </div>
 </section>
 
-<!-- Active indicator -->
 <div class="active-indicator" id="activeIndicator"></div>
 
-<!-- Categories rendered here -->
+<div class="toolbar" id="toolbar" style="display:none">
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="searchInput" placeholder="Filter links... (e.g. 'env', 'admin', 'shodan')" oninput="filterLinks()">
+    <span class="search-clear" id="searchClear" onclick="clearSearch()">✕</span>
+  </div>
+  <button class="toolbar-btn" onclick="collapseAll()">Collapse all</button>
+  <button class="toolbar-btn" onclick="expandAll()">Expand all</button>
+  <span id="filterCount" style="font-size:0.7rem;color:var(--muted)"></span>
+</div>
 
 </main>
 </div>
+
+<div class="toast-container" id="toastContainer"></div>
 
 <script>
 // ==================== STATE ====================
 let scopes = [];
 let activeIdx = -1;
 let dorksData = null;
+let undoBuffer = null;
+let undoTimeout = null;
 
 function load() { try { return JSON.parse(localStorage.getItem('rl_scopes_v3')||'[]'); } catch { return []; } }
 function save() { localStorage.setItem('rl_scopes_v3', JSON.stringify(scopes)); }
+function loadActiveIdx() { const v = localStorage.getItem('rl_active_idx'); return v !== null ? parseInt(v,10) : -1; }
+function saveActiveIdx() { localStorage.setItem('rl_active_idx', String(activeIdx)); }
+
+// ==================== SIDEBAR MOBILE ====================
+window.toggleSidebar = function() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.querySelector('.sidebar-overlay').classList.toggle('show');
+};
+
+// ==================== BULK ADD ====================
+window.toggleBulk = function() {
+  const area = document.getElementById('bulkArea');
+  const actions = document.getElementById('bulkActions');
+  const visible = area.classList.toggle('visible');
+  actions.classList.toggle('visible', visible);
+  if (visible) area.focus();
+  else area.value = '';
+};
+
+window.bulkAdd = function() {
+  const text = document.getElementById('bulkArea').value.trim();
+  if (!text) return;
+  const lines = text.split(/[\n,;\s]+/).map(l => l.trim().toLowerCase()).filter(l => l && l.includes('.'));
+  let added = 0;
+  for (const d of lines) {
+    if (scopes.find(s => s.domain === d)) continue;
+    scopes.push({ domain: d, isWildcard: document.getElementById('newType').value === 'wildcard', githubOrg: document.getElementById('newOrg').value.trim() });
+    added++;
+  }
+  if (added) {
+    if (activeIdx === -1 || activeIdx >= scopes.length - 1) activeIdx = scopes.length - 1;
+    save(); saveActiveIdx(); renderAll();
+  }
+  document.getElementById('bulkArea').value = '';
+  toggleBulk();
+};
 
 // ==================== SCOPE MGMT ====================
 window.addScope = function() {
@@ -164,16 +268,95 @@ window.addScope = function() {
   scopes.push({ domain: d, isWildcard: document.getElementById('newType').value === 'wildcard', githubOrg: document.getElementById('newOrg').value.trim() });
   document.getElementById('newDomain').value = ''; document.getElementById('newOrg').value = '';
   if (activeIdx === -1 || activeIdx >= scopes.length - 1) activeIdx = scopes.length - 1;
-  save(); renderAll();
+  save(); saveActiveIdx(); renderAll();
 };
+
 window.removeScope = function(i) {
+  undoBuffer = { item: scopes[i], idx: i };
   scopes.splice(i,1);
   if (activeIdx >= scopes.length) activeIdx = scopes.length - 1;
   if (scopes.length === 0) activeIdx = -1;
-  save(); renderAll();
+  save(); saveActiveIdx(); renderAll();
+  showUndoToast();
 };
-window.clearAll = function() { if(!confirm('Remove all?')) return; scopes=[]; activeIdx=-1; save(); renderAll(); };
-window.setActive = function(idx) { activeIdx = idx; save(); renderAll(); };
+
+window.clearAll = function() {
+  if(!confirm('Remove all scopes?')) return;
+  undoBuffer = { all: [...scopes] };
+  scopes=[]; activeIdx=-1;
+  save(); saveActiveIdx(); renderAll();
+  showUndoToast('Cleared all scopes');
+};
+
+window.setActive = function(idx) { activeIdx = idx; saveActiveIdx(); renderAll(); };
+
+// ==================== IMPORT / EXPORT ====================
+window.exportScopes = function() {
+  const data = JSON.stringify(scopes, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'mydork-scopes.json'; a.click();
+  URL.revokeObjectURL(url);
+};
+
+window.importScopes = function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!Array.isArray(data)) throw new Error('invalid format');
+      let added = 0;
+      for (const s of data) {
+        if (!s.domain) continue;
+        if (scopes.find(x => x.domain === s.domain)) continue;
+        scopes.push({ domain: s.domain, isWildcard: !!s.isWildcard, githubOrg: s.githubOrg || '' });
+        added++;
+      }
+      if (added) {
+        if (activeIdx === -1 || activeIdx >= scopes.length - 1) activeIdx = scopes.length - 1;
+        save(); saveActiveIdx(); renderAll();
+        showUndoToast(`Imported ${added} scopes`);
+      }
+    } catch(ex) { alert('Invalid JSON file'); }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+};
+
+// ==================== UNDO TOAST ====================
+function showUndoToast(msg) {
+  const container = document.getElementById('toastContainer');
+  if (undoTimeout) clearTimeout(undoTimeout);
+  // remove existing toasts
+  container.innerHTML = '';
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = `${msg || 'Scope removed'} <span class="toast-undo" onclick="undoLast()">Undo</span>`;
+  container.appendChild(toast);
+  undoTimeout = setTimeout(() => {
+    if (toast.parentNode) { toast.classList.add('fadeout'); setTimeout(() => toast.remove(), 200); }
+    undoBuffer = null;
+  }, 4000);
+}
+
+window.undoLast = function() {
+  if (!undoBuffer) return;
+  const container = document.getElementById('toastContainer');
+  container.innerHTML = '';
+  if (undoTimeout) clearTimeout(undoTimeout);
+
+  if (undoBuffer.all) {
+    scopes = undoBuffer.all;
+    activeIdx = scopes.length > 0 ? scopes.length - 1 : -1;
+  } else if (undoBuffer.item) {
+    scopes.splice(undoBuffer.idx, 0, undoBuffer.item);
+    activeIdx = undoBuffer.idx;
+  }
+  undoBuffer = null;
+  save(); saveActiveIdx(); renderAll();
+};
 
 // ==================== LINK GEN (from dorks.json) ====================
 function genLinks(scopeList) {
@@ -198,8 +381,14 @@ function genLinks(scopeList) {
           const raw = `site:${d} ${e.query}`;
           sub = raw;
           url = `https://yandex.com/search/?text=${encodeURIComponent(raw)}`;
+        } else if (e.type === 'duckduckgo') {
+          const raw = `site:${d} ${e.query}`;
+          sub = raw;
+          url = `https://duckduckgo.com/?q=${encodeURIComponent(raw)}`;
         } else if (e.type === 'github') {
-          const raw = `org:${s.githubOrg} ${e.query}`;
+          // substitute {domain} in queries
+          const query = e.query.replace(/\{domain\}/g, d);
+          const raw = `org:${s.githubOrg} ${query}`;
           sub = raw;
           url = `https://github.com/search?q=${encodeURIComponent(raw)}&type=code`;
         } else if (e.url) {
@@ -220,7 +409,10 @@ function genLinks(scopeList) {
 function scrollToCat(id) {
   const el = document.getElementById('cat-'+id);
   if (el) { el.scrollIntoView({ behavior:'smooth', block:'start' }); toggleCat(id, true); }
+  // close mobile sidebar after nav
+  if (window.innerWidth <= 700) toggleSidebar();
 }
+
 window.toggleCat = function(id, force) {
   const body = document.getElementById('body-'+id), header = document.getElementById('head-'+id);
   if (!body) return;
@@ -231,6 +423,11 @@ window.toggleCat = function(id, force) {
 function renderAll() {
   const main = document.querySelector('main');
   main.querySelectorAll('.cat-section').forEach(el => el.remove());
+
+  // toolbar visibility
+  document.getElementById('toolbar').style.display = scopes.length ? 'flex' : 'none';
+  document.getElementById('searchInput').value = '';
+  document.getElementById('filterCount').textContent = '';
 
   // Tabs
   let tabsHtml = `<span class="tab all-tab ${activeIdx === -1 ? 'active' : ''}" onclick="setActive(-1)">🌐 All (${scopes.length})</span>`;
@@ -272,13 +469,14 @@ function renderAll() {
         </div>
         <div class="cat-body open" id="body-${cat.id}">
           <div class="link-grid">
-            ${cat.links.map(l => `
-              <a class="link-btn" href="${l.url}" target="_blank" rel="noopener">
+            ${cat.links.map((l, li) => `
+              <a class="link-btn" href="${l.url}" target="_blank" rel="noopener" data-cat="${cat.id}">
                 <span class="link-dot ${l.dot}"></span>
                 <span class="link-body">
                   <div class="link-title">${l.title}</div>
-                  <div class="link-sub">${l.sub}</div>
+                  <div class="link-sub" title="${l.sub.replace(/"/g,'&quot;')}">${l.sub}</div>
                 </span>
+                <span class="copy-btn" onclick="copyLink(event, ${JSON.stringify(l.sub.replace(/"/g,'\\"'))})" title="Copy dork">📋</span>
               </a>
             `).join('')}
           </div>
@@ -291,7 +489,6 @@ function renderAll() {
 
 function updateBadges(cats) {
   for (const cat of cats) { const b = document.getElementById('badge-'+cat.id); if (b) b.textContent = cat.links.length; }
-  // zero out categories not in current results
   const allIds = dorksData && dorksData.catdefs ? dorksData.catdefs.map(c => c.id) : [];
   for (const id of allIds) {
     const b = document.getElementById('badge-'+id);
@@ -299,18 +496,76 @@ function updateBadges(cats) {
   }
 }
 
+// ==================== SEARCH / FILTER ====================
+window.filterLinks = function() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const clearBtn = document.getElementById('searchClear');
+  clearBtn.style.display = q ? 'block' : 'none';
+
+  let visible = 0, total = 0;
+  document.querySelectorAll('.link-btn').forEach(btn => {
+    total++;
+    const title = (btn.querySelector('.link-title')?.textContent || '').toLowerCase();
+    const sub = (btn.querySelector('.link-sub')?.textContent || '').toLowerCase();
+    const match = !q || title.includes(q) || sub.includes(q);
+    btn.style.display = match ? '' : 'none';
+    if (match) visible++;
+  });
+
+  // hide empty categories
+  document.querySelectorAll('.cat-section').forEach(section => {
+    const visibleLinks = section.querySelectorAll('.link-btn:not([style*="display: none"])').length;
+    section.classList.toggle('hidden', visibleLinks === 0 && !!q);
+  });
+
+  document.getElementById('filterCount').textContent = q ? `${visible} / ${total} links` : '';
+};
+
+window.clearSearch = function() {
+  document.getElementById('searchInput').value = '';
+  filterLinks();
+};
+
+// ==================== COPY TO CLIPBOARD ====================
+window.copyLink = function(event, text) {
+  event.preventDefault();
+  event.stopPropagation();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.textContent = '✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋'; btn.classList.remove('copied'); }, 1500);
+  });
+};
+
+// ==================== COLLAPSE / EXPAND ====================
+window.collapseAll = function() {
+  document.querySelectorAll('.cat-body.open, .cat-header.open').forEach(el => {
+    el.classList.remove('open');
+  });
+};
+
+window.expandAll = function() {
+  document.querySelectorAll('.cat-body:not(.open), .cat-header:not(.open)').forEach(el => {
+    el.classList.add('open');
+  });
+};
+
 // ==================== INIT ====================
 async function init() {
   try {
-    const r = await fetch('dorks.json');
+    const r = await fetch('dorks.json?v=3');
     dorksData = await r.json();
   } catch(e) {
     console.warn('Failed to load dorks.json, using empty set');
     dorksData = { catdefs: [], dorks: {} };
   }
   scopes = load();
-  if (scopes.length > 0 && activeIdx === -1) activeIdx = scopes.length - 1;
-  document.getElementById('newDomain').addEventListener('keydown', e => { if (e.key==='Enter') addScope(); });
+  activeIdx = loadActiveIdx();
+  if (activeIdx >= scopes.length) activeIdx = scopes.length > 0 ? scopes.length - 1 : -1;
+  document.getElementById('newDomain').addEventListener('keydown', e => {
+    if (e.key==='Enter') addScope();
+  });
   renderAll();
 }
 init();
