@@ -115,9 +115,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
   <a href="#" class="logo">🏴‍☠️ MyDork</a>
   <div class="nav-item" onclick="scrollToCat('discovery')"><span>🔍</span> Subdomain Discovery<span class="badge" id="badge-discovery">0</span></div>
   <div class="nav-item" onclick="scrollToCat('github')"><span>🐙</span> GitHub Secrets<span class="badge" id="badge-github">0</span></div>
-  <div class="nav-item" onclick="scrollToCat('dirs')"><span>📂</span> Directories & Files<span class="badge" id="badge-dirs">0</span></div>
-  <div class="nav-item" onclick="scrollToCat('dorks')"><span>🕵️</span> Dorks & Panels<span class="badge" id="badge-dorks">0</span></div>
-  <div class="nav-item" onclick="scrollToCat('info')"><span>🩺</span> Info Leaks & Errors<span class="badge" id="badge-info">0</span></div>
+  <div class="nav-item" onclick="scrollToCat('google_dirs')"><span>📂</span> Google — Files & Dirs<span class="badge" id="badge-google_dirs">0</span></div>
+  <div class="nav-item" onclick="scrollToCat('google_panels')"><span>🕵️</span> Google — Panels & Envs<span class="badge" id="badge-google_panels">0</span></div>
+  <div class="nav-item" onclick="scrollToCat('google_leaks')"><span>🩺</span> Google — Secrets & Leaks<span class="badge" id="badge-google_leaks">0</span></div>
+  <div class="nav-item" onclick="scrollToCat('yandex')"><span>🇷🇺</span> Yandex Dorks<span class="badge" id="badge-yandex">0</span></div>
   <div class="nav-item" onclick="scrollToCat('shodan')"><span>🛰️</span> Shodan & Censys<span class="badge" id="badge-shodan">0</span></div>
   <div class="nav-item" onclick="scrollToCat('recon')"><span>🌐</span> External Recon<span class="badge" id="badge-recon">0</span></div>
 </nav>
@@ -130,7 +131,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 
   <!-- Add row -->
   <div class="add-row">
-    <div><label>Domain</label><input type="text" id="newDomain" placeholder="viator.com" autocomplete="off"></div>
+    <div><label>Domain</label><input type="text" id="newDomain" placeholder="example.com" autocomplete="off"></div>
     <div><label>Type</label><select id="newType"><option value="wildcard">*.domain</option><option value="exact">domain.com</option></select></div>
     <div><label>GitHub Org</label><input type="text" id="newOrg" placeholder="optional" autocomplete="off"></div>
     <div><label>&nbsp;</label><button class="btn" onclick="addScope()">+ Add</button></div>
@@ -149,11 +150,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 <script>
 // ==================== STATE ====================
 let scopes = [];
-let activeIdx = -1; // -1 = all
+let activeIdx = -1;
+let dorksData = null;
 
 function load() { try { return JSON.parse(localStorage.getItem('rl_scopes_v3')||'[]'); } catch { return []; } }
 function save() { localStorage.setItem('rl_scopes_v3', JSON.stringify(scopes)); }
-function urlSafe(s) { return encodeURIComponent(s); }
 
 // ==================== SCOPE MGMT ====================
 window.addScope = function() {
@@ -174,74 +175,45 @@ window.removeScope = function(i) {
 window.clearAll = function() { if(!confirm('Remove all?')) return; scopes=[]; activeIdx=-1; save(); renderAll(); };
 window.setActive = function(idx) { activeIdx = idx; save(); renderAll(); };
 
-// ==================== LINK GEN (for a specific scope or all) ====================
+// ==================== LINK GEN (from dorks.json) ====================
 function genLinks(scopeList) {
+  if (!dorksData || !dorksData.dorks) return [];
   const all = {};
   function add(id, title, sub, url, dot) { if (!all[id]) all[id] = []; all[id].push({ title, sub, url, dot }); }
 
   for (const s of scopeList) {
-    const d = s.domain, cx = s.isWildcard ? '%25.' : '';
+    const d = s.domain, wc = s.isWildcard ? '%25.' : '', org = s.githubOrg || '';
 
-    add('discovery', 'CRT.sh JSON',        `crt.sh/?q=${cx}${d}&output=json`,       `https://crt.sh/?q=${cx}${urlSafe(d)}&output=json`, 'dot-purple');
-    add('discovery', 'CRT.sh HTML',        `crt.sh/?q=${cx}${d}`,                   `https://crt.sh/?q=${cx}${urlSafe(d)}`, 'dot-purple');
-    add('discovery', 'CRT.sh (dedup)',     `crt.sh/?q=${cx}${d}&deduplicate=Y`,     `https://crt.sh/?q=${cx}${urlSafe(d)}&deduplicate=Y`, 'dot-purple');
-    add('discovery', 'CRT.sh (no exp.)',   `crt.sh/?q=${cx}${d}&exclude=expired`,   `https://crt.sh/?q=${cx}${urlSafe(d)}&exclude=expired`, 'dot-purple');
-    add('discovery', 'CertSpotter API',    `sslmate.com/certspotter?domain=${d}`,   `https://sslmate.com/certspotter/api/v0/certs?domain=${d}`, 'dot-blue');
-    add('discovery', 'RapidDNS',           `rapiddns.io/subdomain/${d}`,            `https://rapiddns.io/subdomain/${d}?full=1`, 'dot-blue');
-    add('discovery', 'AlienVault OTX',     `otx.alienvault.com/${d}`,              `https://otx.alienvault.com/indicator/domain/${d}`, 'dot-blue');
-    add('discovery', 'SecurityTrails',     `securitytrails.com/domain/${d}`,        `https://securitytrails.com/domain/${d}`, 'dot-blue');
+    for (const [catId, entries] of Object.entries(dorksData.dorks)) {
+      for (const e of entries) {
+        if (e.needs_org && !s.githubOrg) continue;
 
-    if (s.githubOrg) {
-      const o = s.githubOrg;
-      add('github', 'Domain mention',         `org:${o} "${d}"`,                                     `https://github.com/search?q=org%3A${o}+%22${d}%22&type=code`, 'dot-green');
-      add('github', 'API Keys (generic)',     `org:${o} /(AIza|sk-|pk_|key-|secret-|api_)/`,         `https://github.com/search?q=org%3A${o}+%2F(AIza%7Csk-%7Cpk_%7Cxoxb-%7Ckey-%7Csecret-%7Ctoken-%7Capi_)%5B%5E%5Cs%5D%7B20%2C%7D%2F&type=code`, 'dot-green');
-      add('github', 'Google API Keys',        `org:${o} /AIza[0-9A-Za-z_-]{35}/`,                   `https://github.com/search?q=org%3A${o}+%2FAIza%5B0-9A-Za-z_-%5D%7B35%7D%2F&type=code`, 'dot-green');
-      add('github', 'AWS Keys (AKIA*)',       `org:${o} /AKIA[0-9A-Z]{16}/`,                        `https://github.com/search?q=org%3A${o}+%2FAKIA%5B0-9A-Z%5D%7B16%7D%2F&type=code`, 'dot-green');
-      add('github', 'Private Keys (PEM)',     `org:${o} /BEGIN.*PRIVATE KEY/`,                      `https://github.com/search?q=org%3A${o}+%2F-----BEGIN+.*PRIVATE+KEY-----%2F&type=code`, 'dot-green');
-      add('github', 'Password/Secret',        `org:${o} /(password|secret) = "/`,                   `https://github.com/search?q=org%3A${o}+%2F(password%7Csecret%7Cpasswd)%5Cs*%3D%5Cs*%5B%27%22%5D%5B%5E%27%22%5D%7B4%2C%7D%2F&type=code`, 'dot-green');
-      add('github', 'JWT Tokens',             `org:${o} /eyJ...eyJ/`,                               `https://github.com/search?q=org%3A${o}+%2FeyJ%5B0-9A-Za-z_-%5D%7B20%2C%7D%5C.eyJ%2F&type=code`, 'dot-green');
-      add('github', 'Connection Strings',     `org:${o} /jdbc:|mongodb:|redis:|postgres:|mysql:/`,  `https://github.com/search?q=org%3A${o}+%2F(jdbc%3A%7Cmongodb%3A%7Credis%3A%7Cpostgres%3A%7Cmysql%3A)%2F&type=code`, 'dot-green');
-      add('github', '.env files',             `org:${o} path:**/.env /^[A-Z]{2,}_[A-Z_]{2,}=/`,     `https://github.com/search?q=org%3A${o}+%2F%5E%5BA-Z%5D%7B2%2C%7D_%5BA-Z_%5D%7B2%2C%7D%3D%2F+path%3A**%2F.env&type=code`, 'dot-green');
-      add('github', 'Terraform tfvars',       `org:${o} path:**/terraform.tfvars`,                  `https://github.com/search?q=org%3A${o}+path%3A**%2Fterraform.tfvars+%2F%5E%5Ba-z_%5D%7B3%2C%7D%5Cs*%3D%2F&type=code`, 'dot-green');
-      add('github', 'Docker config.json',     `org:${o} path:**/config.json /"auth"/`,              `https://github.com/search?q=org%3A${o}+path%3A**%2Fconfig.json+%2F%22auth%22%2F&type=code`, 'dot-green');
-      add('github', 'CI/CD (gitlab-ci)',      `org:${o} path:**/.gitlab-ci.yml /SECRET/`,           `https://github.com/search?q=org%3A${o}+path%3A**%2F.gitlab-ci.yml+%2F%5BA-Z_%5D%7B3%2C%7D_SECRET%2F&type=code`, 'dot-green');
-      add('github', 'GitHub Actions',         `org:${o} path:**/.github/workflows`,                 `https://github.com/search?q=org%3A${o}+path%3A**%2F.github%2Fworkflows+%2Fsecrets%7Ctoken%7Cpassword%2F&type=code`, 'dot-green');
-      add('github', 'k8s secrets',            `org:${o} path:**/secret.yaml`,                       `https://github.com/search?q=org%3A${o}+path%3A**%2Fsecret.yaml+%2F%5Ba-zA-Z0-9%2B%2F%3D%5D%7B40%2C%7D%2F&type=code`, 'dot-green');
+        let url, sub;
+
+        if (e.type === 'google') {
+          const raw = `site:${d} ${e.query}`;
+          sub = raw;
+          url = `https://www.google.com/search?q=${encodeURIComponent(raw)}`;
+        } else if (e.type === 'yandex') {
+          const raw = `site:${d} ${e.query}`;
+          sub = raw;
+          url = `https://yandex.com/search/?text=${encodeURIComponent(raw)}`;
+        } else if (e.type === 'github') {
+          const raw = `org:${s.githubOrg} ${e.query}`;
+          sub = raw;
+          url = `https://github.com/search?q=${encodeURIComponent(raw)}&type=code`;
+        } else if (e.url) {
+          url = e.url.replace(/\{domain\}/g, d).replace(/\{wc\}/g, wc).replace(/\{org\}/g, org);
+          sub = url;
+        }
+
+        if (url) add(catId, e.title, sub, url, e.dot);
+      }
     }
-
-    const dirs = [['Directory Listing','intitle:"index of /"'],['Admin Dir','intitle:"index of /admin"'],['Backup Dir','intitle:"index of /backup"'],['Log Files','ext:log'],['SQL Dumps','ext:sql'],['Env Files','ext:env'],['JSON Files','ext:json'],['XML Files','ext:xml'],['YAML Configs','ext:yml'],['Backup Files','ext:bak'],['Config Files','ext:conf'],['PEM Certs','ext:pem'],['Private Keys','ext:key'],['Text w/ Passwords','ext:txt intext:password']];
-    for (const [t,dq] of dirs) add('dirs', t, `site:${d} ${dq}`, `https://www.google.com/search?q=${urlSafe(`site:${d} ${dq}`)}`, 'dot-orange');
-
-    const dorks = [['Login Pages','inurl:login'],['Admin Panels','inurl:admin'],['Dashboards','inurl:dashboard'],['Signup Pages','inurl:signup'],['Registration','inurl:register'],['WordPress Admin','inurl:wp-admin'],['Login+Password','intitle:"login" intext:"password"'],['Dev Environments','inurl:dev'],['Staging','inurl:staging'],['UAT','inurl:uat'],['Beta','inurl:beta'],['Sandbox','inurl:sandbox'],['Demo','inurl:demo'],['Non-WWW','-inurl:www']];
-    for (const [t,dq] of dorks) add('dorks', t, `site:${d} ${dq}`, `https://www.google.com/search?q=${urlSafe(`site:${d} ${dq}`)}`, 'dot-teal');
-
-    const leaks = [['API Keys Exposed','intext:"api_key"'],['Secrets Exposed','intext:"secret"'],['Tokens Exposed','intext:"token"'],['Passwords','intext:"password"'],['RSA Private Keys','intext:"BEGIN RSA PRIVATE KEY"'],['AWS Access Keys','intext:"aws_access_key"'],['JDBC Strings','intext:"jdbc:"'],['MongoDB URIs','intext:"mongodb://"'],['SMTP Creds','intext:"smtp" intext:"password"'],['Sentry DSN','"sentry.io"'],['Stack Traces','intext:"stack trace"'],['Exceptions','intext:"exception"'],['Fatal Errors','intext:"fatal error"'],['Oracle Errors','"ORA-"'],['SQL Errors','"SQLSTATE"'],['Unexpected Errors','"unexpected error"']];
-    for (const [t,dq] of leaks) add('info', t, `site:${d} ${dq}`, `https://www.google.com/search?q=${urlSafe(`site:${d} ${dq}`)}`, 'dot-red');
-
-    add('shodan', `hostname:*.${d}`, `Shodan`, `https://www.shodan.io/search?query=hostname%3A*.${d}`, 'dot-pink');
-    add('shodan', `hostname:${d}`, `Shodan exact`, `https://www.shodan.io/search?query=hostname%3A${d}`, 'dot-pink');
-    add('shodan', `ssl:${d}`, `Shodan SSL`, `https://www.shodan.io/search?query=ssl%3A${d}`, 'dot-pink');
-    add('shodan', `Censys Certs`, `censys.io`, `https://search.censys.io/certificates?q=${d}`, 'dot-pink');
-    add('shodan', `Censys Hosts`, `censys.io`, `https://search.censys.io/hosts?q=${d}`, 'dot-pink');
-    add('shodan', `URLScan.io`, `urlscan.io`, `https://urlscan.io/search/#*.${d}`, 'dot-pink');
-
-    add('recon', 'Wayback CDX', `web.archive.org/cdx?url=*.${d}`, `https://web.archive.org/cdx/search/cdx?url=*.${d}/*&output=text&fl=original&collapse=urlkey`, 'dot-blue');
-    add('recon', 'Wayback Calendar', `web.archive.org/web/*/${d}`, `https://web.archive.org/web/*/${d}/*`, 'dot-blue');
-    add('recon', 'BuiltWith', `builtwith.com/${d}`, `https://builtwith.com/${d}`, 'dot-blue');
-    add('recon', 'Wappalyzer', `wappalyzer.com/lookup/${d}`, `https://www.wappalyzer.com/lookup/${d}`, 'dot-blue');
-    add('recon', 'GrayHatWarfare S3', `buckets.grayhatwarfare.com/${d}`, `https://buckets.grayhatwarfare.com/results/${d}`, 'dot-blue');
-    add('recon', 'CommonCrawl', `commoncrawl.org *.${d}`, `https://index.commoncrawl.org/CC-MAIN-2024-51-index?url=*.${d}/*&output=json`, 'dot-blue');
   }
-  const catDefs = [
-    { id:'discovery', icon:'🔍', name:'Subdomain & Certificate Discovery' },
-    { id:'github', icon:'🐙', name:'GitHub Code Search' },
-    { id:'dirs', icon:'📂', name:'Directories & Sensitive Files' },
-    { id:'dorks', icon:'🕵️', name:'Dorks — Login, Admin, Dev Panels' },
-    { id:'info', icon:'🩺', name:'Information Leaks & Errors' },
-    { id:'shodan', icon:'🛰️', name:'Shodan & Censys' },
-    { id:'recon', icon:'🌐', name:'External Recon Sources' },
-  ];
-  return catDefs.map(cat => ({ ...cat, links: all[cat.id] || [] })).filter(cat => cat.links.length > 0);
+
+  if (!dorksData.catdefs) return [];
+  return dorksData.catdefs.map(cat => ({ ...cat, links: all[cat.id] || [] })).filter(cat => cat.links.length > 0);
 }
 
 // ==================== RENDER ====================
@@ -319,17 +291,29 @@ function renderAll() {
 
 function updateBadges(cats) {
   for (const cat of cats) { const b = document.getElementById('badge-'+cat.id); if (b) b.textContent = cat.links.length; }
-  ['discovery','github','dirs','dorks','info','shodan','recon'].forEach(id => {
+  // zero out categories not in current results
+  const allIds = dorksData && dorksData.catdefs ? dorksData.catdefs.map(c => c.id) : [];
+  for (const id of allIds) {
     const b = document.getElementById('badge-'+id);
     if (b && !cats.find(c => c.id === id)) b.textContent = '0';
-  });
+  }
 }
 
 // ==================== INIT ====================
-scopes = load();
-if (scopes.length > 0 && activeIdx === -1) activeIdx = scopes.length - 1;
-document.getElementById('newDomain').addEventListener('keydown', e => { if (e.key==='Enter') addScope(); });
-renderAll();
+async function init() {
+  try {
+    const r = await fetch('dorks.json');
+    dorksData = await r.json();
+  } catch(e) {
+    console.warn('Failed to load dorks.json, using empty set');
+    dorksData = { catdefs: [], dorks: {} };
+  }
+  scopes = load();
+  if (scopes.length > 0 && activeIdx === -1) activeIdx = scopes.length - 1;
+  document.getElementById('newDomain').addEventListener('keydown', e => { if (e.key==='Enter') addScope(); });
+  renderAll();
+}
+init();
 </script>
 </body>
 </html>
