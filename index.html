@@ -373,21 +373,22 @@ function genLinks(scopeList) {
 
         let url, sub;
 
+        // substitute {domain} in ALL queries
+        const query = (e.query || '').replace(/\{domain\}/g, d);
+
         if (e.type === 'google') {
-          const raw = `site:${d} ${e.query}`;
+          const raw = `site:${d} ${query}`;
           sub = raw;
           url = `https://www.google.com/search?q=${encodeURIComponent(raw)}`;
         } else if (e.type === 'yandex') {
-          const raw = `site:${d} ${e.query}`;
+          const raw = `site:${d} ${query}`;
           sub = raw;
           url = `https://yandex.com/search/?text=${encodeURIComponent(raw)}`;
         } else if (e.type === 'duckduckgo') {
-          const raw = `site:${d} ${e.query}`;
+          const raw = `site:${d} ${query}`;
           sub = raw;
           url = `https://duckduckgo.com/?q=${encodeURIComponent(raw)}`;
         } else if (e.type === 'github') {
-          // substitute {domain} in queries
-          const query = e.query.replace(/\{domain\}/g, d);
           const raw = `org:${s.githubOrg} ${query}`;
           sub = raw;
           url = `https://github.com/search?q=${encodeURIComponent(raw)}&type=code`;
@@ -476,7 +477,7 @@ function renderAll() {
                   <div class="link-title">${l.title}</div>
                   <div class="link-sub" title="${l.sub.replace(/"/g,'&quot;')}">${l.sub}</div>
                 </span>
-                <span class="copy-btn" onclick="copyLink(event, ${JSON.stringify(l.sub.replace(/"/g,'\\"'))})" title="Copy dork">📋</span>
+                <span class="copy-btn" data-copy="${l.sub.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}" onclick="copyLink(event)" title="Copy dork">📋</span>
               </a>
             `).join('')}
           </div>
@@ -527,15 +528,17 @@ window.clearSearch = function() {
 };
 
 // ==================== COPY TO CLIPBOARD ====================
-window.copyLink = function(event, text) {
+window.copyLink = function(event) {
   event.preventDefault();
   event.stopPropagation();
+  const btn = event.currentTarget;
+  const text = btn.getAttribute('data-copy');
+  if (!text) return;
   navigator.clipboard.writeText(text).then(() => {
-    const btn = event.target;
     btn.textContent = '✓';
     btn.classList.add('copied');
     setTimeout(() => { btn.textContent = '📋'; btn.classList.remove('copied'); }, 1500);
-  });
+  }).catch(() => {});
 };
 
 // ==================== COLLAPSE / EXPAND ====================
