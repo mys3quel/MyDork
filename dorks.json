@@ -160,14 +160,14 @@
       },
       {
         "title": "Kubernetes secrets/configmaps",
-        "query": "(path:**/secret.yaml OR path:**/secrets.yaml OR filename:kubeconfig /[a-zA-Z0-9+/=]{40,}/)",
+        "query": "(path:**/secret.yaml OR path:**/secrets.yaml OR path:**/kubeconfig /[a-zA-Z0-9+/=]{40,}/)",
         "type": "github",
         "dot": "green",
         "needs_org": true
       },
       {
         "title": "Ansible vault & secrets",
-        "query": "(path:**/vault.yml OR path:**/secrets.yml OR filename:.vault_pass)",
+        "query": "(path:**/vault.yml OR path:**/secrets.yml OR path:**/.vault_pass)",
         "type": "github",
         "dot": "green",
         "needs_org": true
@@ -237,7 +237,7 @@
       },
       {
         "title": "Firebase Admin SDK / service-account JSON",
-        "query": "(filename:*-firebase-adminsdk-*.json OR /\"type\": \"service_account\"/)",
+        "query": "(path:**/*-firebase-adminsdk-*.json OR /\"type\": \"service_account\"/)",
         "type": "github",
         "dot": "green",
         "needs_org": true
@@ -286,7 +286,7 @@
       },
       {
         "title": "Postman/Insomnia collections (saved creds)",
-        "query": "(filename:*.postman_collection.json OR filename:insomnia.json /authorization|bearer|apikey/)",
+        "query": "(path:**/*.postman_collection.json OR path:**/insomnia.json /authorization|bearer|apikey/)",
         "type": "github",
         "dot": "green",
         "needs_org": true
