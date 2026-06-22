@@ -293,7 +293,7 @@
       },
       {
         "title": "Deleted/forked secrets via commit search",
-        "query": "\"{domain}\" /password|secret|token/ fork:true",
+        "query": "\"{domain}\" /password|secret|token/",
         "type": "github",
         "dot": "green",
         "needs_org": true
