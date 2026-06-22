@@ -574,37 +574,43 @@
         "title": "Open S3 buckets (Google-indexed)",
         "query": "site:s3.amazonaws.com \"{domain}\" OR site:*.s3.amazonaws.com \"{domain}\"",
         "type": "google",
-        "dot": "blue"
+        "dot": "blue",
+        "no_site_prefix": true
       },
       {
         "title": "Open S3 buckets (listing XML)",
         "query": "intext:\"ListBucketResult\" \"{domain}\"",
         "type": "google",
-        "dot": "blue"
+        "dot": "blue",
+        "no_site_prefix": true
       },
       {
         "title": "Google Cloud Storage buckets",
         "query": "site:storage.googleapis.com \"{domain}\"",
         "type": "google",
-        "dot": "blue"
+        "dot": "blue",
+        "no_site_prefix": true
       },
       {
         "title": "Azure Blob Storage containers",
         "query": "site:blob.core.windows.net \"{domain}\"",
         "type": "google",
-        "dot": "blue"
+        "dot": "blue",
+        "no_site_prefix": true
       },
       {
         "title": "DigitalOcean Spaces",
         "query": "site:digitaloceanspaces.com \"{domain}\"",
         "type": "google",
-        "dot": "blue"
+        "dot": "blue",
+        "no_site_prefix": true
       },
       {
         "title": "Backblaze B2 / Wasabi buckets",
         "query": "site:backblazeb2.com OR site:s3.wasabisys.com \"{domain}\"",
         "type": "google",
-        "dot": "blue"
+        "dot": "blue",
+        "no_site_prefix": true
       },
       {
         "title": "GrayHatWarfare S3/GCS/Azure search",
@@ -620,7 +626,8 @@
         "title": "Firebase Realtime DB open rules",
         "query": "intext:\"firebaseio.com\" intext:\".json\" -intext:\"permission_denied\"",
         "type": "google",
-        "dot": "blue"
+        "dot": "blue",
+        "no_site_prefix": true
       }
     ],
     "pastes_osint": [

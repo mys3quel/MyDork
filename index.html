@@ -377,7 +377,7 @@ function genLinks(scopeList) {
         const query = (e.query || '').replace(/\{domain\}/g, d);
 
         if (e.type === 'google') {
-          const raw = `site:${d} ${query}`;
+          const raw = e.no_site_prefix ? query : `site:${d} ${query}`;
           sub = raw;
           url = `https://www.google.com/search?q=${encodeURIComponent(raw)}`;
         } else if (e.type === 'yandex') {
