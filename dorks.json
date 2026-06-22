@@ -1,190 +1,914 @@
 {
   "catdefs": [
-    { "id": "discovery", "icon": "🔍", "name": "Subdomain & Certificate Discovery" },
-    { "id": "github", "icon": "🐙", "name": "GitHub Code Search" },
-    { "id": "google_dirs", "icon": "📂", "name": "Google — Directories & Exposed Files" },
-    { "id": "google_panels", "icon": "🕵️", "name": "Google — Panels, APIs & Dev Envs" },
-    { "id": "google_leaks", "icon": "🩺", "name": "Google — Secrets & Info Leaks" },
-    { "id": "cloud_storage", "icon": "☁️", "name": "Cloud Storage — S3 / GCS / Azure Buckets" },
-    { "id": "pastes_osint", "icon": "📋", "name": "Pastebins, Gists & OSINT Leak Sources" },
-    { "id": "yandex", "icon": "🇷🇺", "name": "Yandex — Same Dorks, Different Index" },
-    { "id": "duckduckgo", "icon": "🦆", "name": "DuckDuckGo — Privacy-Friendly Index" },
-    { "id": "shodan", "icon": "🛰️", "name": "Shodan, Censys, FOFA & URLScan" },
-    { "id": "recon", "icon": "🌐", "name": "External Recon Sources" }
+    {
+      "id": "discovery",
+      "icon": "🔍",
+      "name": "Subdomain & Certificate Discovery"
+    },
+    {
+      "id": "github",
+      "icon": "🐙",
+      "name": "GitHub Code Search"
+    },
+    {
+      "id": "google_dirs",
+      "icon": "📂",
+      "name": "Google — Directories & Exposed Files"
+    },
+    {
+      "id": "google_panels",
+      "icon": "🕵️",
+      "name": "Google — Panels, APIs & Dev Envs"
+    },
+    {
+      "id": "google_leaks",
+      "icon": "🩺",
+      "name": "Google — Secrets & Info Leaks"
+    },
+    {
+      "id": "cloud_storage",
+      "icon": "☁️",
+      "name": "Cloud Storage — S3 / GCS / Azure Buckets"
+    },
+    {
+      "id": "pastes_osint",
+      "icon": "📋",
+      "name": "Pastebins, Gists & OSINT Leak Sources"
+    },
+    {
+      "id": "yandex",
+      "icon": "🇷🇺",
+      "name": "Yandex — Same Dorks, Different Index"
+    },
+    {
+      "id": "duckduckgo",
+      "icon": "🦆",
+      "name": "DuckDuckGo — Privacy-Friendly Index"
+    },
+    {
+      "id": "shodan",
+      "icon": "🛰️",
+      "name": "Shodan, Censys, FOFA & URLScan"
+    },
+    {
+      "id": "recon",
+      "icon": "🌐",
+      "name": "External Recon Sources"
+    }
   ],
-
   "dorks": {
     "discovery": [
-      { "title": "CRT.sh JSON", "url": "https://crt.sh/?q={wc}{domain}&output=json", "dot": "purple" },
-      { "title": "CRT.sh HTML", "url": "https://crt.sh/?q={wc}{domain}", "dot": "purple" },
-      { "title": "CRT.sh (dedup, no expired)", "url": "https://crt.sh/?q={wc}{domain}&deduplicate=Y&exclude=expired", "dot": "purple" },
-      { "title": "RapidDNS (subdomains + DNS)", "url": "https://rapiddns.io/subdomain/{domain}?full=1", "dot": "blue" },
-      { "title": "AlienVault OTX", "url": "https://otx.alienvault.com/indicator/domain/{domain}", "dot": "blue" },
-      { "title": "SecurityTrails", "url": "https://securitytrails.com/domain/{domain}", "dot": "blue" },
-      { "title": "DNSDumpster", "url": "https://dnsdumpster.com/?domain={domain}", "dot": "blue" },
-      { "title": "Censys Subdomains (cert SAN)", "url": "https://search.censys.io/certificates?q=names%3A{domain}", "dot": "purple" },
-      { "title": "BufferOver DNS (passive)", "url": "https://dns.bufferover.run/dns?q=.{domain}", "dot": "blue" },
-      { "title": "Chaos Project (ProjectDiscovery)", "url": "https://chaos.projectdiscovery.io/#/", "dot": "blue" },
-      { "title": "Google — site indexed subdomains", "query": "site:*.{domain} -site:www.{domain}", "type": "google", "dot": "orange" }
+      {
+        "title": "CRT.sh JSON",
+        "url": "https://crt.sh/?q={wc}{domain}&output=json",
+        "dot": "purple"
+      },
+      {
+        "title": "CRT.sh HTML",
+        "url": "https://crt.sh/?q={wc}{domain}",
+        "dot": "purple"
+      },
+      {
+        "title": "CRT.sh (dedup, no expired)",
+        "url": "https://crt.sh/?q={wc}{domain}&deduplicate=Y&exclude=expired",
+        "dot": "purple"
+      },
+      {
+        "title": "RapidDNS (subdomains + DNS)",
+        "url": "https://rapiddns.io/subdomain/{domain}?full=1",
+        "dot": "blue"
+      },
+      {
+        "title": "AlienVault OTX",
+        "url": "https://otx.alienvault.com/indicator/domain/{domain}",
+        "dot": "blue"
+      },
+      {
+        "title": "SecurityTrails",
+        "url": "https://securitytrails.com/domain/{domain}",
+        "dot": "blue"
+      },
+      {
+        "title": "DNSDumpster",
+        "url": "https://dnsdumpster.com/?domain={domain}",
+        "dot": "blue"
+      },
+      {
+        "title": "Censys Subdomains (cert SAN)",
+        "url": "https://search.censys.io/certificates?q=names%3A{domain}",
+        "dot": "purple"
+      },
+      {
+        "title": "BufferOver DNS (passive)",
+        "url": "https://dns.bufferover.run/dns?q=.{domain}",
+        "dot": "blue"
+      },
+      {
+        "title": "Chaos Project (ProjectDiscovery)",
+        "url": "https://chaos.projectdiscovery.io/#/",
+        "dot": "blue"
+      },
+      {
+        "title": "Google — site indexed subdomains",
+        "query": "site:*.{domain} -site:www.{domain}",
+        "type": "google",
+        "dot": "orange"
+      }
     ],
-
     "github": [
-      { "title": "Domain mention (code + issues)", "query": "\"{domain}\"", "type": "github", "dot": "green", "needs_org": true },
-      { "title": ".env files w/ assignment", "query": "path:**/.env /^[A-Z0-9_]{2,}=.+/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "npm/pip/composer auth tokens", "query": "path:**/.npmrc OR path:**/.pypirc OR path:**/auth.json /_authToken|password|token/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Docker/K8s registry auth", "query": "path:**/config.json OR path:**/.dockercfg /\"auth\"/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Terraform / Pulumi secrets", "query": "path:**/*.tfvars OR path:**/Pulumi.*.yaml /password|secret|token|key/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "CI/CD pipeline secrets (GH Actions/GitLab/CircleCI)", "query": "path:**/.github/workflows/*.yml OR path:**/.gitlab-ci.yml OR path:**/.circleci/config.yml /secret|token|password|api_key/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Kubernetes secrets/configmaps", "query": "path:**/secret.yaml OR path:**/secrets.yaml OR filename:kubeconfig /[a-zA-Z0-9+/=]{40,}/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Ansible vault & secrets", "query": "path:**/vault.yml OR path:**/secrets.yml OR filename:.vault_pass", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Private keys — all formats", "query": "/-----BEGIN ?(RSA|EC|OPENSSH|DSA|PGP)? PRIVATE KEY-----/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "SSH client files (id_rsa, known_hosts)", "query": "path:**/.ssh/id_rsa OR path:**/.ssh/id_ed25519", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Cloud keys — AWS/GCP/Azure", "query": "/AKIA[0-9A-Z]{16}/ OR /AIza[0-9A-Za-z_-]{35}/ OR /(?i)client_secret.{0,20}[0-9A-Za-z\\-_]{32,}/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "AWS secret key assignments", "query": "/aws_secret_access_key\\s*=\\s*['\\\"]?[A-Za-z0-9/+=]{40}/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "GitHub / GitLab tokens", "query": "/gh[pousr]_[0-9a-zA-Z]{36,}/ OR /glpat-[0-9a-zA-Z\\-_]{20}/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Slack tokens & webhooks", "query": "/xox[baprs]-[0-9a-zA-Z-]+/ OR \"hooks.slack.com/services/\"", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Stripe / PayPal / Braintree keys", "query": "/sk_live_[0-9a-zA-Z]{24}/ OR /access_token\\$production\\$/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Twilio / SendGrid / Mailgun keys", "query": "/SK[0-9a-fA-F]{32}/ OR /SG\\.[0-9A-Za-z_-]{22}\\.[0-9A-Za-z_-]{43}/ OR \"key-\" \"mailgun\"", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Heroku / Telegram bot tokens", "query": "/[0-9]{8,10}:[a-zA-Z0-9_-]{35}/ OR \"heroku\" \"api_key\"", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Firebase Admin SDK / service-account JSON", "query": "filename:*-firebase-adminsdk-*.json OR /\"type\": \"service_account\"/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "JWT tokens hardcoded", "query": "/eyJ[a-zA-Z0-9_-]{10,}\\.eyJ[a-zA-Z0-9_-]{10,}\\.[a-zA-Z0-9_-]{10,}/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "DB / queue connection strings", "query": "/jdbc:|mongodb(\\+srv)?:\\/\\/|redis:\\/\\/|postgres(ql)?:\\/\\/|amqp:\\/\\//", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Generic password/secret assignment", "query": "/(password|secret|passwd|api[_-]?key)\\s*[:=]\\s*['\\\"][^'\\\"]{6,}['\\\"]/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Shell history / bash_profile leaks", "query": "path:**/.bash_history OR path:**/.zsh_history OR path:**/.netrc", "type": "github", "dot": "green", "needs_org": true },
-      { "title": ".htpasswd / .pgpass exposed", "query": "path:**/.htpasswd OR path:**/.pgpass", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Dockerfile / docker-compose w/ secrets", "query": "(path:**/Dockerfile OR path:**/docker-compose.yml) /ENV.*(PASSWORD|SECRET|KEY)/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Postman/Insomnia collections (saved creds)", "query": "filename:*.postman_collection.json OR filename:insomnia.json /authorization|bearer|apikey/", "type": "github", "dot": "green", "needs_org": true },
-      { "title": "Deleted/forked secrets via commit search", "query": "\"{domain}\" /password|secret|token/ fork:true", "type": "github", "dot": "green", "needs_org": true }
+      {
+        "title": "Domain mention (code + issues)",
+        "query": "\"{domain}\"",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": ".env files w/ assignment",
+        "query": "path:**/.env /^[A-Z0-9_]{2,}=.+/",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "npm/pip/composer auth tokens",
+        "query": "(path:**/.npmrc OR path:**/.pypirc OR path:**/auth.json /_authToken|password|token/)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Docker/K8s registry auth",
+        "query": "(path:**/config.json OR path:**/.dockercfg /\"auth\"/)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Terraform / Pulumi secrets",
+        "query": "(path:**/*.tfvars OR path:**/Pulumi.*.yaml /password|secret|token|key/)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "CI/CD pipeline secrets (GH Actions/GitLab/CircleCI)",
+        "query": "(path:**/.github/workflows/*.yml OR path:**/.gitlab-ci.yml OR path:**/.circleci/config.yml /secret|token|password|api_key/)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Kubernetes secrets/configmaps",
+        "query": "(path:**/secret.yaml OR path:**/secrets.yaml OR filename:kubeconfig /[a-zA-Z0-9+/=]{40,}/)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Ansible vault & secrets",
+        "query": "(path:**/vault.yml OR path:**/secrets.yml OR filename:.vault_pass)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Private keys — all formats",
+        "query": "/-----BEGIN ?(RSA|EC|OPENSSH|DSA|PGP)? PRIVATE KEY-----/",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "SSH client files (id_rsa, known_hosts)",
+        "query": "(path:**/.ssh/id_rsa OR path:**/.ssh/id_ed25519)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Cloud keys — AWS/GCP/Azure",
+        "query": "(/AKIA[0-9A-Z]{16}/ OR /AIza[0-9A-Za-z_-]{35}/ OR /(?i)client_secret.{0,20}[0-9A-Za-z\\-_]{32,}/)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "AWS secret key assignments",
+        "query": "/aws_secret_access_key\\s*=\\s*[\"\\x27]?[A-Za-z0-9/+]{40}/",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "GitHub / GitLab tokens",
+        "query": "(/gh[pousr]_[0-9a-zA-Z]{36,}/ OR /glpat-[0-9a-zA-Z\\-_]{20}/)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Slack tokens & webhooks",
+        "query": "(/xox[baprs]-[0-9a-zA-Z-]+/ OR \"hooks.slack.com/services/\")",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Stripe / PayPal / Braintree keys",
+        "query": "(/sk_live_[0-9a-zA-Z]{24}/ OR /access_token\\$production\\$/)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Twilio / SendGrid / Mailgun keys",
+        "query": "(/SK[0-9a-fA-F]{32}/ OR /SG\\.[0-9A-Za-z_-]{22}\\.[0-9A-Za-z_-]{43}/ OR \"key-\" \"mailgun\")",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Heroku / Telegram bot tokens",
+        "query": "(/[0-9]{8,10}:[a-zA-Z0-9_-]{35}/ OR \"heroku\" \"api_key\")",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Firebase Admin SDK / service-account JSON",
+        "query": "(filename:*-firebase-adminsdk-*.json OR /\"type\": \"service_account\"/)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "JWT tokens hardcoded",
+        "query": "/eyJ[a-zA-Z0-9_-]{10,}\\.eyJ[a-zA-Z0-9_-]{10,}\\.[a-zA-Z0-9_-]{10,}/",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "DB / queue connection strings",
+        "query": "/jdbc:|mongodb(\\+srv)?:\\/\\/|redis:\\/\\/|postgres(ql)?:\\/\\/|amqp:\\/\\//",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Generic password/secret assignment",
+        "query": "/(password|secret|passwd|api[_-]?key)\\s*[:=]\\s*[\"\\x27][^\"\\x27]{6,}[\"\\x27]/",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Shell history / bash_profile leaks",
+        "query": "(path:**/.bash_history OR path:**/.zsh_history OR path:**/.netrc)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": ".htpasswd / .pgpass exposed",
+        "query": "(path:**/.htpasswd OR path:**/.pgpass)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Dockerfile / docker-compose w/ secrets",
+        "query": "(path:**/Dockerfile OR path:**/docker-compose.yml) /ENV.*(PASSWORD|SECRET|KEY)/",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Postman/Insomnia collections (saved creds)",
+        "query": "(filename:*.postman_collection.json OR filename:insomnia.json /authorization|bearer|apikey/)",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      },
+      {
+        "title": "Deleted/forked secrets via commit search",
+        "query": "\"{domain}\" /password|secret|token/ fork:true",
+        "type": "github",
+        "dot": "green",
+        "needs_org": true
+      }
     ],
-
     "google_dirs": [
-      { "title": "Open directory listing", "query": "intitle:\"index of /\" \"{domain}\"", "type": "google", "dot": "orange" },
-      { "title": "Listing — admin/backup/config/private", "query": "intitle:\"index of\" (inurl:admin OR inurl:backup OR inurl:config OR inurl:private)", "type": "google", "dot": "orange" },
-      { "title": "Listing — .env / .git / .svn / .DS_Store", "query": "intitle:\"index of\" (\".env\" OR \".git\" OR \".svn\" OR \".DS_Store\")", "type": "google", "dot": "orange" },
-      { "title": "SQL dumps (filetype + content)", "query": "filetype:sql (\"INSERT INTO\" OR \"CREATE TABLE\" OR \"phpMyAdmin SQL Dump\")", "type": "google", "dot": "orange" },
-      { "title": "Log files (multi-type)", "query": "intitle:\"index of\" (\"access.log\" OR \"error.log\" OR \"debug.log\") OR filetype:log", "type": "google", "dot": "orange" },
-      { "title": "Backups & archives (all common ext)", "query": "inurl:backup (filetype:sql OR filetype:zip OR filetype:tar OR filetype:tar.gz OR filetype:bak OR filetype:7z OR filetype:rar)", "type": "google", "dot": "orange" },
-      { "title": "Exposed configs (.conf/.yml/.yaml/.ini/.cfg)", "query": "(inurl:.conf OR inurl:.yml OR inurl:.yaml OR inurl:.ini OR inurl:.cfg) -github.com", "type": "google", "dot": "orange" },
-      { "title": "JSON/XML files w/ secrets in name or content", "query": "(inurl:.json OR inurl:.xml) (\"api_key\" OR \"password\" OR \"secret\" OR \"access_token\")", "type": "google", "dot": "orange" },
-      { "title": "Certificates & private keys exposed", "query": "inurl:.pem OR inurl:.key OR inurl:.p12 OR inurl:.pfx", "type": "google", "dot": "orange" },
-      { "title": "Exposed .git/config (source disclosure)", "query": "intitle:\"index of\" \".git\" OR inurl:\".git/config\"", "type": "google", "dot": "orange" },
-      { "title": "wp-config.php backups / exposed", "query": "intext:\"DB_PASSWORD\" (inurl:wp-config.php.bak OR inurl:wp-config.php~ OR inurl:wp-config.txt)", "type": "google", "dot": "orange" },
-      { "title": "Text/CSV files with credentials", "query": "(filetype:txt OR filetype:csv) (intext:\"password\" OR intext:\"username\" AND intext:\"password\")", "type": "google", "dot": "orange" },
-      { "title": "Exposed .vscode / sftp / deploy configs", "query": "inurl:.vscode/sftp.json OR inurl:deploy.json OR inurl:ftpconfig", "type": "google", "dot": "orange" }
+      {
+        "title": "Open directory listing",
+        "query": "intitle:\"index of /\" \"{domain}\"",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "Listing — admin/backup/config/private",
+        "query": "intitle:\"index of\" (inurl:admin OR inurl:backup OR inurl:config OR inurl:private)",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "Listing — .env / .git / .svn / .DS_Store",
+        "query": "intitle:\"index of\" (\".env\" OR \".git\" OR \".svn\" OR \".DS_Store\")",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "SQL dumps (filetype + content)",
+        "query": "filetype:sql (\"INSERT INTO\" OR \"CREATE TABLE\" OR \"phpMyAdmin SQL Dump\")",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "Log files (multi-type)",
+        "query": "intitle:\"index of\" (\"access.log\" OR \"error.log\" OR \"debug.log\") OR filetype:log",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "Backups & archives (all common ext)",
+        "query": "inurl:backup (filetype:sql OR filetype:zip OR filetype:tar OR filetype:tar.gz OR filetype:bak OR filetype:7z OR filetype:rar)",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "Exposed configs (.conf/.yml/.yaml/.ini/.cfg)",
+        "query": "(inurl:.conf OR inurl:.yml OR inurl:.yaml OR inurl:.ini OR inurl:.cfg) -github.com",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "JSON/XML files w/ secrets in name or content",
+        "query": "(inurl:.json OR inurl:.xml) (\"api_key\" OR \"password\" OR \"secret\" OR \"access_token\")",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "Certificates & private keys exposed",
+        "query": "inurl:.pem OR inurl:.key OR inurl:.p12 OR inurl:.pfx",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "Exposed .git/config (source disclosure)",
+        "query": "intitle:\"index of\" \".git\" OR inurl:\".git/config\"",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "wp-config.php backups / exposed",
+        "query": "intext:\"DB_PASSWORD\" (inurl:wp-config.php.bak OR inurl:wp-config.php~ OR inurl:wp-config.txt)",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "Text/CSV files with credentials",
+        "query": "(filetype:txt OR filetype:csv) (intext:\"password\" OR intext:\"username\" AND intext:\"password\")",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "Exposed .vscode / sftp / deploy configs",
+        "query": "inurl:.vscode/sftp.json OR inurl:deploy.json OR inurl:ftpconfig",
+        "type": "google",
+        "dot": "orange"
+      }
     ],
-
     "google_panels": [
-      { "title": "Login / Admin / Dashboard panels", "query": "(inurl:login OR inurl:admin OR inurl:dashboard) \"{domain}\"", "type": "google", "dot": "teal" },
-      { "title": "Signup / OAuth / SSO endpoints", "query": "inurl:signup OR inurl:register OR inurl:oauth OR inurl:saml OR inurl:openid OR inurl:sso", "type": "google", "dot": "teal" },
-      { "title": "GraphQL / REST API surfaces", "query": "inurl:graphql OR inurl:/api/v1 OR inurl:/api/v2 OR inurl:/api/v3", "type": "google", "dot": "teal" },
-      { "title": "API docs (Swagger/OpenAPI/Postman)", "query": "inurl:swagger OR inurl:api-docs OR inurl:openapi.json OR inurl:swagger.json OR intitle:\"Postman\"", "type": "google", "dot": "teal" },
-      { "title": "Spring Boot Actuators (env/heapdump/trace)", "query": "inurl:actuator (inurl:env OR inurl:heapdump OR inurl:trace OR inurl:mappings)", "type": "google", "dot": "teal" },
-      { "title": "DevOps panels — Jira/Confluence/Jenkins/GitLab", "query": "(inurl:jira intitle:\"System Dashboard\") OR inurl:confluence OR (inurl:jenkins intitle:\"Dashboard\") OR (inurl:gitlab intitle:\"Sign in\")", "type": "google", "dot": "teal" },
-      { "title": "Monitoring/Admin UIs — Grafana/Kibana/Adminer/phpMyAdmin", "query": "intitle:\"Grafana\" OR intitle:\"Kibana\" OR intitle:\"Adminer\" OR intitle:\"phpMyAdmin\" inurl:login", "type": "google", "dot": "teal" },
-      { "title": "Infra UIs — Consul/Vault/Nacos/RabbitMQ/Portainer", "query": "intitle:\"Consul\" OR intitle:\"Vault\" inurl:ui OR intitle:\"Nacos\" OR intitle:\"RabbitMQ Management\" OR intitle:\"Portainer\"", "type": "google", "dot": "teal" },
-      { "title": "Open Elasticsearch / Kibana instances", "query": "intitle:\"Elasticsearch\" inurl:9200 OR intext:\"cluster_name\" intext:\"number_of_nodes\"", "type": "google", "dot": "teal" },
-      { "title": "Legacy app servers — Tomcat/JBoss/WebLogic", "query": "intitle:\"Apache Tomcat\" inurl:manager OR intitle:\"JBoss Management\" OR intitle:\"WebLogic Server\"", "type": "google", "dot": "teal" },
-      { "title": "Virtualization/Network mgmt — vCenter/Citrix/Webmin", "query": "intitle:\"vCenter\" OR intitle:\"Citrix Gateway\" OR intitle:\"Webmin\" inurl:10000", "type": "google", "dot": "teal" },
-      { "title": "PHP info / debug / status / health / console", "query": "intitle:\"phpinfo()\" OR inurl:status OR inurl:health OR inurl:healthcheck OR inurl:debug OR inurl:console", "type": "google", "dot": "teal" },
-      { "title": "Pre-prod environments (dev/staging/uat/beta/sandbox/demo/test)", "query": "inurl:dev. OR inurl:staging. OR inurl:uat. OR inurl:beta. OR inurl:sandbox. OR inurl:demo. OR inurl:test.", "type": "google", "dot": "teal" },
-      { "title": "Non-WWW & well-known/admin paths", "query": "(-inurl:www \"{domain}\") OR inurl:.well-known/ OR inurl:wp-admin", "type": "google", "dot": "teal" },
-      { "title": "Kubernetes Dashboard exposed", "query": "intitle:\"Kubernetes Dashboard\" OR inurl:\"/api/v1/namespaces/kube-system\"", "type": "google", "dot": "teal" }
+      {
+        "title": "Login / Admin / Dashboard panels",
+        "query": "(inurl:login OR inurl:admin OR inurl:dashboard) \"{domain}\"",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "Signup / OAuth / SSO endpoints",
+        "query": "inurl:signup OR inurl:register OR inurl:oauth OR inurl:saml OR inurl:openid OR inurl:sso",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "GraphQL / REST API surfaces",
+        "query": "inurl:graphql OR inurl:/api/v1 OR inurl:/api/v2 OR inurl:/api/v3",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "API docs (Swagger/OpenAPI/Postman)",
+        "query": "inurl:swagger OR inurl:api-docs OR inurl:openapi.json OR inurl:swagger.json OR intitle:\"Postman\"",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "Spring Boot Actuators (env/heapdump/trace)",
+        "query": "inurl:actuator (inurl:env OR inurl:heapdump OR inurl:trace OR inurl:mappings)",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "DevOps panels — Jira/Confluence/Jenkins/GitLab",
+        "query": "(inurl:jira intitle:\"System Dashboard\") OR inurl:confluence OR (inurl:jenkins intitle:\"Dashboard\") OR (inurl:gitlab intitle:\"Sign in\")",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "Monitoring/Admin UIs — Grafana/Kibana/Adminer/phpMyAdmin",
+        "query": "intitle:\"Grafana\" OR intitle:\"Kibana\" OR intitle:\"Adminer\" OR intitle:\"phpMyAdmin\" inurl:login",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "Infra UIs — Consul/Vault/Nacos/RabbitMQ/Portainer",
+        "query": "intitle:\"Consul\" OR intitle:\"Vault\" inurl:ui OR intitle:\"Nacos\" OR intitle:\"RabbitMQ Management\" OR intitle:\"Portainer\"",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "Open Elasticsearch / Kibana instances",
+        "query": "intitle:\"Elasticsearch\" inurl:9200 OR intext:\"cluster_name\" intext:\"number_of_nodes\"",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "Legacy app servers — Tomcat/JBoss/WebLogic",
+        "query": "intitle:\"Apache Tomcat\" inurl:manager OR intitle:\"JBoss Management\" OR intitle:\"WebLogic Server\"",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "Virtualization/Network mgmt — vCenter/Citrix/Webmin",
+        "query": "intitle:\"vCenter\" OR intitle:\"Citrix Gateway\" OR intitle:\"Webmin\" inurl:10000",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "PHP info / debug / status / health / console",
+        "query": "intitle:\"phpinfo()\" OR inurl:status OR inurl:health OR inurl:healthcheck OR inurl:debug OR inurl:console",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "Pre-prod environments (dev/staging/uat/beta/sandbox/demo/test)",
+        "query": "inurl:dev. OR inurl:staging. OR inurl:uat. OR inurl:beta. OR inurl:sandbox. OR inurl:demo. OR inurl:test.",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "Non-WWW & well-known/admin paths",
+        "query": "(-inurl:www \"{domain}\") OR inurl:.well-known/ OR inurl:wp-admin",
+        "type": "google",
+        "dot": "teal"
+      },
+      {
+        "title": "Kubernetes Dashboard exposed",
+        "query": "intitle:\"Kubernetes Dashboard\" OR inurl:\"/api/v1/namespaces/kube-system\"",
+        "type": "google",
+        "dot": "teal"
+      }
     ],
-
     "google_leaks": [
-      { "title": "Private keys (RSA/EC/OpenSSH/PGP)", "query": "\"-----BEGIN RSA PRIVATE KEY-----\" OR \"-----BEGIN EC PRIVATE KEY-----\" OR \"-----BEGIN OPENSSH PRIVATE KEY-----\" OR \"-----BEGIN PGP PRIVATE KEY BLOCK-----\"", "type": "google", "dot": "red" },
-      { "title": "Cloud creds — AWS/GCP/Azure exposed", "query": "(intext:\"AKIA\" intext:\"aws_secret_access_key\") OR intext:\"AIzaSy\" OR intext:\"client_secret\" intext:\"client_id\" (inurl:.json OR inurl:.env)", "type": "google", "dot": "red" },
-      { "title": "Database connection URIs exposed", "query": "intext:\"mongodb://\" OR intext:\"mongodb+srv://\" OR intext:\"postgres://\" OR intext:\"mysql://\" OR intext:\"redis://\"", "type": "google", "dot": "red" },
-      { "title": "Error tracking & monitoring DSNs", "query": "intext:\"sentry.io\" intext:\"http\" OR intext:\"bugsnag\" intext:\"api_key\"", "type": "google", "dot": "red" },
-      { "title": "Stack traces w/ local paths (info disclosure)", "query": "\"stack trace\" (intext:\"/var/www/\" OR intext:\"/home/\" OR intext:\"at System.\")", "type": "google", "dot": "red" },
-      { "title": "SQL/DB engine errors (injection surface)", "query": "\"ORA-\" \"line\" OR \"SQLSTATE\" intext:\"error\" OR intext:\"Warning: mysql_\"", "type": "google", "dot": "red" },
-      { "title": "Framework secrets — Django/Laravel/Rails", "query": "(intext:\"DEBUG = True\" intext:\"SECRET_KEY\") OR (intext:\"APP_KEY\" intext:\"base64:\") OR intext:\"secret_key_base\"", "type": "google", "dot": "red" },
-      { "title": "Firebase / Supabase exposed config", "query": "(intext:\"firebaseio.com\" (inurl:.json OR inurl:.js)) OR (intext:\"supabase\" (intext:\"anon\" OR intext:\"service_role\"))", "type": "google", "dot": "red" },
-      { "title": "SMTP / FTP credentials exposed", "query": "(intext:\"smtp.gmail.com\" intext:\"password\") OR intext:\"smtp.office365.com\" intext:\"password\" OR intext:\"FTP_PASSWORD\"", "type": "google", "dot": "red" },
-      { "title": "Slack / Discord / Teams webhooks", "query": "intext:\"hooks.slack.com/services/\" OR intext:\"discord.com/api/webhooks\" OR intext:\"webhook.office.com\"", "type": "google", "dot": "red" },
-      { "title": "JWT / session signing secrets", "query": "(intext:\"JWT_SECRET\" OR intext:\"jwt_secret\" OR intext:\"SESSION_SECRET\") (inurl:.env OR inurl:.yml)", "type": "google", "dot": "red" },
-      { "title": "Payment provider keys (Stripe/PayPal/Razorpay)", "query": "intext:\"sk_live_\" OR intext:\"rzp_live_\" OR intext:\"access_token$production$\"", "type": "google", "dot": "red" },
-      { "title": "SaaS API keys (Twilio/SendGrid/Mailgun/Algolia)", "query": "intext:\"SG.\" intext:\"sendgrid\" OR intext:\"twilio\" intext:\"auth_token\" OR intext:\"algolia\" intext:\"api_key\"", "type": "google", "dot": "red" },
-      { "title": "Backup SQL dumps with real data", "query": "filetype:sql \"INSERT INTO\" \"VALUES\" (intext:\"password\" OR intext:\"email\")", "type": "google", "dot": "red" },
-      { "title": "Log files leaking credentials", "query": "filetype:log (intext:\"password\" OR intext:\"authorization: bearer\")", "type": "google", "dot": "red" },
-      { "title": "Exposed .htpasswd / htaccess content", "query": "intitle:\"index of\" \".htpasswd\" OR (filetype:htpasswd \"$apr1$\")", "type": "google", "dot": "red" }
+      {
+        "title": "Private keys (RSA/EC/OpenSSH/PGP)",
+        "query": "\"-----BEGIN RSA PRIVATE KEY-----\" OR \"-----BEGIN EC PRIVATE KEY-----\" OR \"-----BEGIN OPENSSH PRIVATE KEY-----\" OR \"-----BEGIN PGP PRIVATE KEY BLOCK-----\"",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "Cloud creds — AWS/GCP/Azure exposed",
+        "query": "(intext:\"AKIA\" intext:\"aws_secret_access_key\") OR intext:\"AIzaSy\" OR intext:\"client_secret\" intext:\"client_id\" (inurl:.json OR inurl:.env)",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "Database connection URIs exposed",
+        "query": "intext:\"mongodb://\" OR intext:\"mongodb+srv://\" OR intext:\"postgres://\" OR intext:\"mysql://\" OR intext:\"redis://\"",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "Error tracking & monitoring DSNs",
+        "query": "intext:\"sentry.io\" intext:\"http\" OR intext:\"bugsnag\" intext:\"api_key\"",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "Stack traces w/ local paths (info disclosure)",
+        "query": "\"stack trace\" (intext:\"/var/www/\" OR intext:\"/home/\" OR intext:\"at System.\")",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "SQL/DB engine errors (injection surface)",
+        "query": "\"ORA-\" \"line\" OR \"SQLSTATE\" intext:\"error\" OR intext:\"Warning: mysql_\"",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "Framework secrets — Django/Laravel/Rails",
+        "query": "(intext:\"DEBUG = True\" intext:\"SECRET_KEY\") OR (intext:\"APP_KEY\" intext:\"base64:\") OR intext:\"secret_key_base\"",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "Firebase / Supabase exposed config",
+        "query": "(intext:\"firebaseio.com\" (inurl:.json OR inurl:.js)) OR (intext:\"supabase\" (intext:\"anon\" OR intext:\"service_role\"))",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "SMTP / FTP credentials exposed",
+        "query": "(intext:\"smtp.gmail.com\" intext:\"password\") OR intext:\"smtp.office365.com\" intext:\"password\" OR intext:\"FTP_PASSWORD\"",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "Slack / Discord / Teams webhooks",
+        "query": "intext:\"hooks.slack.com/services/\" OR intext:\"discord.com/api/webhooks\" OR intext:\"webhook.office.com\"",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "JWT / session signing secrets",
+        "query": "(intext:\"JWT_SECRET\" OR intext:\"jwt_secret\" OR intext:\"SESSION_SECRET\") (inurl:.env OR inurl:.yml)",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "Payment provider keys (Stripe/PayPal/Razorpay)",
+        "query": "intext:\"sk_live_\" OR intext:\"rzp_live_\" OR intext:\"access_token$production$\"",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "SaaS API keys (Twilio/SendGrid/Mailgun/Algolia)",
+        "query": "intext:\"SG.\" intext:\"sendgrid\" OR intext:\"twilio\" intext:\"auth_token\" OR intext:\"algolia\" intext:\"api_key\"",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "Backup SQL dumps with real data",
+        "query": "filetype:sql \"INSERT INTO\" \"VALUES\" (intext:\"password\" OR intext:\"email\")",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "Log files leaking credentials",
+        "query": "filetype:log (intext:\"password\" OR intext:\"authorization: bearer\")",
+        "type": "google",
+        "dot": "red"
+      },
+      {
+        "title": "Exposed .htpasswd / htaccess content",
+        "query": "intitle:\"index of\" \".htpasswd\" OR (filetype:htpasswd \"$apr1$\")",
+        "type": "google",
+        "dot": "red"
+      }
     ],
-
     "cloud_storage": [
-      { "title": "Open S3 buckets (Google-indexed)", "query": "site:s3.amazonaws.com \"{domain}\" OR site:*.s3.amazonaws.com \"{domain}\"", "type": "google", "dot": "blue" },
-      { "title": "Open S3 buckets (listing XML)", "query": "intext:\"ListBucketResult\" \"{domain}\"", "type": "google", "dot": "blue" },
-      { "title": "Google Cloud Storage buckets", "query": "site:storage.googleapis.com \"{domain}\"", "type": "google", "dot": "blue" },
-      { "title": "Azure Blob Storage containers", "query": "site:blob.core.windows.net \"{domain}\"", "type": "google", "dot": "blue" },
-      { "title": "DigitalOcean Spaces", "query": "site:digitaloceanspaces.com \"{domain}\"", "type": "google", "dot": "blue" },
-      { "title": "Backblaze B2 / Wasabi buckets", "query": "site:backblazeb2.com OR site:s3.wasabisys.com \"{domain}\"", "type": "google", "dot": "blue" },
-      { "title": "GrayHatWarfare S3/GCS/Azure search", "url": "https://buckets.grayhatwarfare.com/results/{domain}", "dot": "blue" },
-      { "title": "S3 bucket bruteforce permutations (manual)", "url": "https://buckets.grayhatwarfare.com/files/{domain}/1", "dot": "blue" },
-      { "title": "Firebase Realtime DB open rules", "query": "intext:\"firebaseio.com\" intext:\".json\" -intext:\"permission_denied\"", "type": "google", "dot": "blue" }
+      {
+        "title": "Open S3 buckets (Google-indexed)",
+        "query": "site:s3.amazonaws.com \"{domain}\" OR site:*.s3.amazonaws.com \"{domain}\"",
+        "type": "google",
+        "dot": "blue"
+      },
+      {
+        "title": "Open S3 buckets (listing XML)",
+        "query": "intext:\"ListBucketResult\" \"{domain}\"",
+        "type": "google",
+        "dot": "blue"
+      },
+      {
+        "title": "Google Cloud Storage buckets",
+        "query": "site:storage.googleapis.com \"{domain}\"",
+        "type": "google",
+        "dot": "blue"
+      },
+      {
+        "title": "Azure Blob Storage containers",
+        "query": "site:blob.core.windows.net \"{domain}\"",
+        "type": "google",
+        "dot": "blue"
+      },
+      {
+        "title": "DigitalOcean Spaces",
+        "query": "site:digitaloceanspaces.com \"{domain}\"",
+        "type": "google",
+        "dot": "blue"
+      },
+      {
+        "title": "Backblaze B2 / Wasabi buckets",
+        "query": "site:backblazeb2.com OR site:s3.wasabisys.com \"{domain}\"",
+        "type": "google",
+        "dot": "blue"
+      },
+      {
+        "title": "GrayHatWarfare S3/GCS/Azure search",
+        "url": "https://buckets.grayhatwarfare.com/results/{domain}",
+        "dot": "blue"
+      },
+      {
+        "title": "S3 bucket bruteforce permutations (manual)",
+        "url": "https://buckets.grayhatwarfare.com/files/{domain}/1",
+        "dot": "blue"
+      },
+      {
+        "title": "Firebase Realtime DB open rules",
+        "query": "intext:\"firebaseio.com\" intext:\".json\" -intext:\"permission_denied\"",
+        "type": "google",
+        "dot": "blue"
+      }
     ],
-
     "pastes_osint": [
-      { "title": "Pastebin mentions", "query": "site:pastebin.com \"{domain}\"", "type": "google", "dot": "purple" },
-      { "title": "GitHub Gist mentions", "query": "site:gist.github.com \"{domain}\"", "type": "google", "dot": "purple" },
-      { "title": "Trello boards exposed", "query": "site:trello.com \"{domain}\"", "type": "google", "dot": "purple" },
-      { "title": "Google Docs/Sheets indexed publicly", "query": "site:docs.google.com \"{domain}\" (intext:password OR intext:secret OR intext:credentials)", "type": "google", "dot": "purple" },
-      { "title": "Stack Overflow leaked snippets", "query": "site:stackoverflow.com \"{domain}\" (intext:password OR intext:api_key OR intext:secret)", "type": "google", "dot": "purple" },
-      { "title": "Notepad/Ghostbin/JustPaste leaks", "query": "site:justpaste.it OR site:ghostbin.com OR site:notepad.pw \"{domain}\"", "type": "google", "dot": "purple" },
-      { "title": "Have I Been Pwned — domain breach check", "url": "https://haveibeenpwned.com/DomainSearch", "dot": "purple" },
-      { "title": "DeHashed — credential search", "url": "https://dehashed.com/search?query={domain}", "dot": "purple" },
-      { "title": "Intelligence X — leak/darkweb search", "url": "https://intelx.io/?s={domain}", "dot": "purple" },
-      { "title": "LeakIX — exposed services/leaks", "url": "https://leakix.net/search?q={domain}", "dot": "purple" }
+      {
+        "title": "Pastebin mentions",
+        "query": "site:pastebin.com \"{domain}\"",
+        "type": "google",
+        "dot": "purple"
+      },
+      {
+        "title": "GitHub Gist mentions",
+        "query": "site:gist.github.com \"{domain}\"",
+        "type": "google",
+        "dot": "purple"
+      },
+      {
+        "title": "Trello boards exposed",
+        "query": "site:trello.com \"{domain}\"",
+        "type": "google",
+        "dot": "purple"
+      },
+      {
+        "title": "Google Docs/Sheets indexed publicly",
+        "query": "site:docs.google.com \"{domain}\" (intext:password OR intext:secret OR intext:credentials)",
+        "type": "google",
+        "dot": "purple"
+      },
+      {
+        "title": "Stack Overflow leaked snippets",
+        "query": "site:stackoverflow.com \"{domain}\" (intext:password OR intext:api_key OR intext:secret)",
+        "type": "google",
+        "dot": "purple"
+      },
+      {
+        "title": "Notepad/Ghostbin/JustPaste leaks",
+        "query": "site:justpaste.it OR site:ghostbin.com OR site:notepad.pw \"{domain}\"",
+        "type": "google",
+        "dot": "purple"
+      },
+      {
+        "title": "Have I Been Pwned — domain breach check",
+        "url": "https://haveibeenpwned.com/DomainSearch",
+        "dot": "purple"
+      },
+      {
+        "title": "DeHashed — credential search",
+        "url": "https://dehashed.com/search?query={domain}",
+        "dot": "purple"
+      },
+      {
+        "title": "Intelligence X — leak/darkweb search",
+        "url": "https://intelx.io/?s={domain}",
+        "dot": "purple"
+      },
+      {
+        "title": "LeakIX — exposed services/leaks",
+        "url": "https://leakix.net/search?q={domain}",
+        "dot": "purple"
+      }
     ],
-
     "yandex": [
-      { "title": "Login / Admin panels", "query": "(inurl:login OR inurl:admin) \"{domain}\"", "type": "yandex", "dot": "teal" },
-      { "title": "Exposed files (.env/.sql/.log/.bak/.yml/.json)", "query": "(inurl:.env OR inurl:.sql OR inurl:.log OR inurl:.bak OR inurl:.yml OR inurl:.json) \"{domain}\"", "type": "yandex", "dot": "orange" },
-      { "title": "JSON configs w/ secrets", "query": "inurl:.json (intext:\"password\" OR intext:\"secret\" OR intext:\"key\")", "type": "yandex", "dot": "orange" },
-      { "title": "Pre-prod environments", "query": "inurl:dev. OR inurl:staging. OR inurl:sandbox. OR inurl:test. OR inurl:uat.", "type": "yandex", "dot": "teal" },
-      { "title": "PHPinfo / Actuators / Swagger", "query": "intitle:\"phpinfo()\" OR inurl:actuator OR inurl:swagger OR inurl:api-docs", "type": "yandex", "dot": "teal" },
-      { "title": "Private keys exposed", "query": "\"-----BEGIN RSA PRIVATE KEY-----\" OR \"-----BEGIN OPENSSH PRIVATE KEY-----\"", "type": "yandex", "dot": "red" },
-      { "title": "Stack traces / Django debug", "query": "\"stack trace\" OR (\"DEBUG = True\" \"SECRET_KEY\")", "type": "yandex", "dot": "red" },
-      { "title": "Non-WWW subdomains indexed", "query": "-inurl:www \"{domain}\"", "type": "yandex", "dot": "teal" },
-      { "title": "Open directory listings", "query": "intitle:\"index of\" \"{domain}\"", "type": "yandex", "dot": "orange" }
+      {
+        "title": "Login / Admin panels",
+        "query": "(inurl:login OR inurl:admin) \"{domain}\"",
+        "type": "yandex",
+        "dot": "teal"
+      },
+      {
+        "title": "Exposed files (.env/.sql/.log/.bak/.yml/.json)",
+        "query": "(inurl:.env OR inurl:.sql OR inurl:.log OR inurl:.bak OR inurl:.yml OR inurl:.json) \"{domain}\"",
+        "type": "yandex",
+        "dot": "orange"
+      },
+      {
+        "title": "JSON configs w/ secrets",
+        "query": "inurl:.json (intext:\"password\" OR intext:\"secret\" OR intext:\"key\")",
+        "type": "yandex",
+        "dot": "orange"
+      },
+      {
+        "title": "Pre-prod environments",
+        "query": "inurl:dev. OR inurl:staging. OR inurl:sandbox. OR inurl:test. OR inurl:uat.",
+        "type": "yandex",
+        "dot": "teal"
+      },
+      {
+        "title": "PHPinfo / Actuators / Swagger",
+        "query": "intitle:\"phpinfo()\" OR inurl:actuator OR inurl:swagger OR inurl:api-docs",
+        "type": "yandex",
+        "dot": "teal"
+      },
+      {
+        "title": "Private keys exposed",
+        "query": "\"-----BEGIN RSA PRIVATE KEY-----\" OR \"-----BEGIN OPENSSH PRIVATE KEY-----\"",
+        "type": "yandex",
+        "dot": "red"
+      },
+      {
+        "title": "Stack traces / Django debug",
+        "query": "\"stack trace\" OR (\"DEBUG = True\" \"SECRET_KEY\")",
+        "type": "yandex",
+        "dot": "red"
+      },
+      {
+        "title": "Non-WWW subdomains indexed",
+        "query": "-inurl:www \"{domain}\"",
+        "type": "yandex",
+        "dot": "teal"
+      },
+      {
+        "title": "Open directory listings",
+        "query": "intitle:\"index of\" \"{domain}\"",
+        "type": "yandex",
+        "dot": "orange"
+      }
     ],
-
     "duckduckgo": [
-      { "title": "Login / Admin panels", "query": "(inurl:login OR inurl:admin) \"{domain}\"", "type": "duckduckgo", "dot": "teal" },
-      { "title": "Exposed files (.env/.sql/.log/.bak/.yml/.json)", "query": "(inurl:.env OR inurl:.sql OR inurl:.log OR inurl:.bak OR inurl:.yml OR inurl:.json) \"{domain}\"", "type": "duckduckgo", "dot": "orange" },
-      { "title": "JSON configs w/ secrets", "query": "inurl:.json (\"password\" OR \"secret\" OR \"key\")", "type": "duckduckgo", "dot": "orange" },
-      { "title": "Pre-prod environments", "query": "inurl:dev. OR inurl:staging. OR inurl:sandbox. OR inurl:test. OR inurl:uat.", "type": "duckduckgo", "dot": "teal" },
-      { "title": "PHPinfo / Actuators / Swagger", "query": "intitle:\"phpinfo()\" OR inurl:actuator OR inurl:swagger OR inurl:api-docs", "type": "duckduckgo", "dot": "teal" },
-      { "title": "Private keys exposed", "query": "\"-----BEGIN RSA PRIVATE KEY-----\" OR \"-----BEGIN OPENSSH PRIVATE KEY-----\"", "type": "duckduckgo", "dot": "red" },
-      { "title": "Stack traces", "query": "\"stack trace\"", "type": "duckduckgo", "dot": "red" },
-      { "title": "Non-WWW subdomains indexed", "query": "-inurl:www \"{domain}\"", "type": "duckduckgo", "dot": "teal" },
-      { "title": "Open directory listings", "query": "intitle:\"index of\" \"{domain}\"", "type": "duckduckgo", "dot": "orange" }
+      {
+        "title": "Login / Admin panels",
+        "query": "(inurl:login OR inurl:admin) \"{domain}\"",
+        "type": "duckduckgo",
+        "dot": "teal"
+      },
+      {
+        "title": "Exposed files (.env/.sql/.log/.bak/.yml/.json)",
+        "query": "(inurl:.env OR inurl:.sql OR inurl:.log OR inurl:.bak OR inurl:.yml OR inurl:.json) \"{domain}\"",
+        "type": "duckduckgo",
+        "dot": "orange"
+      },
+      {
+        "title": "JSON configs w/ secrets",
+        "query": "inurl:.json (\"password\" OR \"secret\" OR \"key\")",
+        "type": "duckduckgo",
+        "dot": "orange"
+      },
+      {
+        "title": "Pre-prod environments",
+        "query": "inurl:dev. OR inurl:staging. OR inurl:sandbox. OR inurl:test. OR inurl:uat.",
+        "type": "duckduckgo",
+        "dot": "teal"
+      },
+      {
+        "title": "PHPinfo / Actuators / Swagger",
+        "query": "intitle:\"phpinfo()\" OR inurl:actuator OR inurl:swagger OR inurl:api-docs",
+        "type": "duckduckgo",
+        "dot": "teal"
+      },
+      {
+        "title": "Private keys exposed",
+        "query": "\"-----BEGIN RSA PRIVATE KEY-----\" OR \"-----BEGIN OPENSSH PRIVATE KEY-----\"",
+        "type": "duckduckgo",
+        "dot": "red"
+      },
+      {
+        "title": "Stack traces",
+        "query": "\"stack trace\"",
+        "type": "duckduckgo",
+        "dot": "red"
+      },
+      {
+        "title": "Non-WWW subdomains indexed",
+        "query": "-inurl:www \"{domain}\"",
+        "type": "duckduckgo",
+        "dot": "teal"
+      },
+      {
+        "title": "Open directory listings",
+        "query": "intitle:\"index of\" \"{domain}\"",
+        "type": "duckduckgo",
+        "dot": "orange"
+      }
     ],
-
     "shodan": [
-      { "title": "Shodan — hostname wildcard", "url": "https://www.shodan.io/search?query=hostname%3A*.{domain}", "dot": "pink" },
-      { "title": "Shodan — exact hostname", "url": "https://www.shodan.io/search?query=hostname%3A{domain}", "dot": "pink" },
-      { "title": "Shodan — SSL/TLS cert match", "url": "https://www.shodan.io/search?query=ssl%3A{domain}", "dot": "pink" },
-      { "title": "Shodan — open Elasticsearch/MongoDB", "url": "https://www.shodan.io/search?query=hostname%3A{domain}+%28port%3A9200+OR+port%3A27017%29", "dot": "pink" },
-      { "title": "Shodan — exposed Docker API", "url": "https://www.shodan.io/search?query=hostname%3A{domain}+port%3A2375", "dot": "pink" },
-      { "title": "Shodan — Jenkins/RDP exposed", "url": "https://www.shodan.io/search?query=hostname%3A{domain}+%28product%3AJenkins+OR+port%3A3389%29", "dot": "pink" },
-      { "title": "Censys — certificates", "url": "https://search.censys.io/certificates?q={domain}", "dot": "pink" },
-      { "title": "Censys — hosts", "url": "https://search.censys.io/hosts?q=services.tls.certificates.leaf_data.subject.common_name%3A{domain}", "dot": "pink" },
-      { "title": "FOFA — host search", "url": "https://en.fofa.info/result?qbase64=", "dot": "pink" },
-      { "title": "URLScan.io — domain history", "url": "https://urlscan.io/search/#page.domain:*{domain}*", "dot": "pink" },
-      { "title": "ZoomEye — host search", "url": "https://www.zoomeye.org/searchResult?q=site%3A{domain}", "dot": "pink" }
+      {
+        "title": "Shodan — hostname wildcard",
+        "url": "https://www.shodan.io/search?query=hostname%3A*.{domain}",
+        "dot": "pink"
+      },
+      {
+        "title": "Shodan — exact hostname",
+        "url": "https://www.shodan.io/search?query=hostname%3A{domain}",
+        "dot": "pink"
+      },
+      {
+        "title": "Shodan — SSL/TLS cert match",
+        "url": "https://www.shodan.io/search?query=ssl%3A{domain}",
+        "dot": "pink"
+      },
+      {
+        "title": "Shodan — open Elasticsearch/MongoDB",
+        "url": "https://www.shodan.io/search?query=hostname%3A{domain}+%28port%3A9200+OR+port%3A27017%29",
+        "dot": "pink"
+      },
+      {
+        "title": "Shodan — exposed Docker API",
+        "url": "https://www.shodan.io/search?query=hostname%3A{domain}+port%3A2375",
+        "dot": "pink"
+      },
+      {
+        "title": "Shodan — Jenkins/RDP exposed",
+        "url": "https://www.shodan.io/search?query=hostname%3A{domain}+%28product%3AJenkins+OR+port%3A3389%29",
+        "dot": "pink"
+      },
+      {
+        "title": "Censys — certificates",
+        "url": "https://search.censys.io/certificates?q={domain}",
+        "dot": "pink"
+      },
+      {
+        "title": "Censys — hosts",
+        "url": "https://search.censys.io/hosts?q=services.tls.certificates.leaf_data.subject.common_name%3A{domain}",
+        "dot": "pink"
+      },
+      {
+        "title": "FOFA — host search",
+        "url": "https://en.fofa.info/result?qbase64=",
+        "dot": "pink"
+      },
+      {
+        "title": "URLScan.io — domain history",
+        "url": "https://urlscan.io/search/#page.domain:*{domain}*",
+        "dot": "pink"
+      },
+      {
+        "title": "ZoomEye — host search",
+        "url": "https://www.zoomeye.org/searchResult?q=site%3A{domain}",
+        "dot": "pink"
+      }
     ],
-
     "recon": [
-      { "title": "Wayback CDX (all URLs)", "url": "https://web.archive.org/cdx/search/cdx?url=*.{domain}/*&output=text&fl=original&collapse=urlkey", "dot": "blue" },
-      { "title": "Wayback CDX (extended fields)", "url": "https://web.archive.org/cdx/search/cdx?url=*.{domain}/*&output=text&fl=original,timestamp,status,length,mimetype&collapse=urlkey", "dot": "blue" },
-      { "title": "Wayback CDX — JS files only", "url": "https://web.archive.org/cdx/search/cdx?url=*.{domain}/*&output=text&fl=original&collapse=urlkey&filter=urlkey:.*\\.js$", "dot": "blue" },
-      { "title": "Wayback Calendar", "url": "https://web.archive.org/web/*/{domain}/*", "dot": "blue" },
-      { "title": "BuiltWith — tech stack", "url": "https://builtwith.com/{domain}", "dot": "blue" },
-      { "title": "Wappalyzer — tech stack", "url": "https://www.wappalyzer.com/lookup/{domain}", "dot": "blue" },
-      { "title": "CommonCrawl index", "url": "https://index.commoncrawl.org/CC-MAIN-2026-17-index?url=*.{domain}/*&output=json", "dot": "blue" },
-      { "title": "Hunter.io — email harvesting", "url": "https://hunter.io/companies/{domain}", "dot": "blue" },
-      { "title": "Google cache/site-restricted recon", "query": "site:{domain} (filetype:pdf OR filetype:doc OR filetype:xls OR filetype:ppt)", "type": "google", "dot": "orange" },
-      { "title": "LinkedIn employees (social recon)", "query": "site:linkedin.com/in \"{domain}\"", "type": "google", "dot": "orange" },
-      { "title": "Job postings revealing internal tech", "query": "\"{domain}\" intext:\"stack\" (site:linkedin.com/jobs OR site:indeed.com)", "type": "google", "dot": "orange" }
+      {
+        "title": "Wayback CDX (all URLs)",
+        "url": "https://web.archive.org/cdx/search/cdx?url=*.{domain}/*&output=text&fl=original&collapse=urlkey",
+        "dot": "blue"
+      },
+      {
+        "title": "Wayback CDX (extended fields)",
+        "url": "https://web.archive.org/cdx/search/cdx?url=*.{domain}/*&output=text&fl=original,timestamp,status,length,mimetype&collapse=urlkey",
+        "dot": "blue"
+      },
+      {
+        "title": "Wayback CDX — JS files only",
+        "url": "https://web.archive.org/cdx/search/cdx?url=*.{domain}/*&output=text&fl=original&collapse=urlkey&filter=urlkey:.*\\.js$",
+        "dot": "blue"
+      },
+      {
+        "title": "Wayback Calendar",
+        "url": "https://web.archive.org/web/*/{domain}/*",
+        "dot": "blue"
+      },
+      {
+        "title": "BuiltWith — tech stack",
+        "url": "https://builtwith.com/{domain}",
+        "dot": "blue"
+      },
+      {
+        "title": "Wappalyzer — tech stack",
+        "url": "https://www.wappalyzer.com/lookup/{domain}",
+        "dot": "blue"
+      },
+      {
+        "title": "CommonCrawl index",
+        "url": "https://index.commoncrawl.org/CC-MAIN-2026-17-index?url=*.{domain}/*&output=json",
+        "dot": "blue"
+      },
+      {
+        "title": "Hunter.io — email harvesting",
+        "url": "https://hunter.io/companies/{domain}",
+        "dot": "blue"
+      },
+      {
+        "title": "Google cache/site-restricted recon",
+        "query": "site:{domain} (filetype:pdf OR filetype:doc OR filetype:xls OR filetype:ppt)",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "LinkedIn employees (social recon)",
+        "query": "site:linkedin.com/in \"{domain}\"",
+        "type": "google",
+        "dot": "orange"
+      },
+      {
+        "title": "Job postings revealing internal tech",
+        "query": "\"{domain}\" intext:\"stack\" (site:linkedin.com/jobs OR site:indeed.com)",
+        "type": "google",
+        "dot": "orange"
+      }
     ]
   }
 }
