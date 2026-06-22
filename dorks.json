@@ -831,7 +831,7 @@
       },
       {
         "title": "Censys — hosts",
-        "url": "https://search.censys.io/hosts?q=services.tls.certificates.leaf_data.subject.common_name%3A{domain}",
+        "url": "https://search.censys.io/hosts?q={domain}",
         "dot": "pink"
       },
       {
