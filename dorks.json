@@ -95,12 +95,12 @@
       },
       {
         "title": "Censys Subdomains (cert SAN)",
-        "url": "https://search.censys.io/certificates?q=names%3A{domain}",
+        "url": "https://search.censys.io/certificates?q={domain}",
         "dot": "purple"
       },
       {
-        "title": "BufferOver DNS (passive)",
-        "url": "https://dns.bufferover.run/dns?q=.{domain}",
+        "title": "Subdomain Center (subdomainfinder)",
+        "url": "https://www.subdomainfinder.org/?domain={domain}",
         "dot": "blue"
       },
       {
