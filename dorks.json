@@ -112,7 +112,8 @@
         "title": "Google — site indexed subdomains",
         "query": "site:*.{domain} -site:www.{domain}",
         "type": "google",
-        "dot": "orange"
+        "dot": "orange",
+        "no_site_prefix": true
       }
     ],
     "github": [
@@ -635,37 +636,43 @@
         "title": "Pastebin mentions",
         "query": "site:pastebin.com \"{domain}\"",
         "type": "google",
-        "dot": "purple"
+        "dot": "purple",
+        "no_site_prefix": true
       },
       {
         "title": "GitHub Gist mentions",
         "query": "site:gist.github.com \"{domain}\"",
         "type": "google",
-        "dot": "purple"
+        "dot": "purple",
+        "no_site_prefix": true
       },
       {
         "title": "Trello boards exposed",
         "query": "site:trello.com \"{domain}\"",
         "type": "google",
-        "dot": "purple"
+        "dot": "purple",
+        "no_site_prefix": true
       },
       {
         "title": "Google Docs/Sheets indexed publicly",
         "query": "site:docs.google.com \"{domain}\" (intext:password OR intext:secret OR intext:credentials)",
         "type": "google",
-        "dot": "purple"
+        "dot": "purple",
+        "no_site_prefix": true
       },
       {
         "title": "Stack Overflow leaked snippets",
         "query": "site:stackoverflow.com \"{domain}\" (intext:password OR intext:api_key OR intext:secret)",
         "type": "google",
-        "dot": "purple"
+        "dot": "purple",
+        "no_site_prefix": true
       },
       {
         "title": "Notepad/Ghostbin/JustPaste leaks",
         "query": "site:justpaste.it OR site:ghostbin.com OR site:notepad.pw \"{domain}\"",
         "type": "google",
-        "dot": "purple"
+        "dot": "purple",
+        "no_site_prefix": true
       },
       {
         "title": "Have I Been Pwned — domain breach check",
@@ -902,19 +909,22 @@
         "title": "Google cache/site-restricted recon",
         "query": "site:{domain} (filetype:pdf OR filetype:doc OR filetype:xls OR filetype:ppt)",
         "type": "google",
-        "dot": "orange"
+        "dot": "orange",
+        "no_site_prefix": true
       },
       {
         "title": "LinkedIn employees (social recon)",
         "query": "site:linkedin.com/in \"{domain}\"",
         "type": "google",
-        "dot": "orange"
+        "dot": "orange",
+        "no_site_prefix": true
       },
       {
         "title": "Job postings revealing internal tech",
         "query": "\"{domain}\" intext:\"stack\" (site:linkedin.com/jobs OR site:indeed.com)",
         "type": "google",
-        "dot": "orange"
+        "dot": "orange",
+        "no_site_prefix": true
       }
     ]
   }
