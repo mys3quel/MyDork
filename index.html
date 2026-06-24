@@ -410,7 +410,18 @@ function genLinks(scopeList) {
   function add(id, title, sub, url, dot) { if (!all[id]) all[id] = []; all[id].push({ title, sub, url, dot }); }
 
   for (const s of scopeList) {
-    const d = s.domain, wc = s.isWildcard ? '%25.' : '', org = s.githubOrg || '';
+    const d = s.domain, org = s.githubOrg || '';
+    // wc and urlDomain depend on wildcard type (for CRT.sh style {wc}{domain} URLs)
+    let wc = '', urlDomain = d;
+    if (s.isWildcard) {
+      if (d.startsWith('*.')) {
+        wc = '%25.';           // CRT.sh wildcard prefix
+        urlDomain = d.substring(2); // strip *. -> domain.com
+      } else if (d.includes('*')) {
+        wc = '';               // no CRT prefix for embedded wildcards
+        urlDomain = d.replace(/\*/g, '%2A'); // URL-encode embedded *
+      }
+    }
 
     for (const [catId, entries] of Object.entries(dorksData.dorks)) {
       for (const e of entries) {
@@ -418,7 +429,7 @@ function genLinks(scopeList) {
 
         let url, sub;
 
-        // substitute {domain} in ALL queries
+        // substitute {domain} in ALL queries (use raw domain for Google/etc)
         const query = (e.query || '').replace(/\{domain\}/g, d);
 
         if (e.type === 'google') {
@@ -438,7 +449,7 @@ function genLinks(scopeList) {
           sub = raw;
           url = `https://github.com/search?q=${encodeURIComponent(raw)}&type=code`;
         } else if (e.url) {
-          url = e.url.replace(/\{domain\}/g, d).replace(/\{wc\}/g, wc).replace(/\{org\}/g, org);
+          url = e.url.replace(/\{domain\}/g, urlDomain).replace(/\{wc\}/g, wc).replace(/\{org\}/g, org);
           sub = url;
         }
 
