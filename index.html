@@ -183,13 +183,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 <section class="scope-bar" id="cat-scope">
   <div class="tab-row" id="tabRow"></div>
   <div class="add-row">
-    <div><label>Domain</label><input type="text" id="newDomain" placeholder="example.com" autocomplete="off"></div>
-    <div><label>Type</label><select id="newType"><option value="wildcard">*.domain</option><option value="exact">domain.com</option></select></div>
+    <div><label>Domain (auto-detects wildcard)</label><input type="text" id="newDomain" placeholder="example.com or *.example.com" autocomplete="off"></div>
+    <div><label>Type</label><select id="newType"><option value="auto">auto</option><option value="wildcard">*.domain</option><option value="exact">domain.com</option></select></div>
     <div><label>GitHub Org</label><input type="text" id="newOrg" placeholder="optional" autocomplete="off"></div>
     <div><label>&nbsp;</label><button class="btn" onclick="addScope()">+ Add</button></div>
   </div>
-  <span class="bulk-toggle" onclick="toggleBulk()">+ Bulk add (paste list)</span>
-  <textarea class="bulk-area" id="bulkArea" placeholder="example.com&#10;target.org&#10;api.target.io&#10;..."></textarea>
+  <span class="bulk-toggle" onclick="toggleBulk()">+ Bulk add (paste any text — domains are auto-detected)</span>
+  <textarea class="bulk-area" id="bulkArea" placeholder="Paste any text here...&#10;Domains, wildcards (*.example.com, app*.example.com), and arbitrary text are auto-detected."></textarea>
   <div class="bulk-actions" id="bulkActions">
     <button class="btn small" onclick="bulkAdd()">Add all</button>
     <button class="btn ghost small" onclick="toggleBulk()">Cancel</button>
@@ -232,7 +232,47 @@ window.toggleSidebar = function() {
   document.querySelector('.sidebar-overlay').classList.toggle('show');
 };
 
-// ==================== BULK ADD ====================
+// ==================== DOMAIN PARSER ====================
+// Extracts domains and wildcards from arbitrary text
+function parseDomains(text) {
+  const results = [];
+  const seen = new Set();
+  
+  // 1. Find wildcard patterns: *.domain, domain.*, prefix*.domain
+  const wcPattern = /(?:^|[\s,;:"'\n()\[\]{}]+)([a-zA-Z0-9*](?:[a-zA-Z0-9\-*]*[a-zA-Z0-9*])?\.(?:[a-zA-Z0-9*](?:[a-zA-Z0-9\-*]*[a-zA-Z0-9*])?\.)*[a-zA-Z0-9*]{2,})/gi;
+  let m;
+  while ((m = wcPattern.exec(text)) !== null) {
+    let raw = m[1].trim().toLowerCase().replace(/\.$/, '');
+    if (raw.includes('*')) {
+      if (!seen.has(raw)) {
+        seen.add(raw);
+        results.push(raw);
+      }
+    }
+  }
+  
+  // 2. Find plain domains
+  const domainPattern = /(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,})/gi;
+  while ((m = domainPattern.exec(text)) !== null) {
+    let d = m[0].toLowerCase().replace(/\.$/, '');
+    if (!seen.has(d)) {
+      seen.add(d);
+      results.push(d);
+    }
+  }
+  
+  return results;
+}
+
+// Determine if a domain string is a wildcard
+function isWildcardDomain(d) {
+  return d.includes('*');
+}
+
+// Strip wildcard prefix to get base domain for dorks
+function baseDomain(d) {
+  return d.replace(/\*/g, '').replace(/^\.+/, '').replace(/\.+$/, '');
+}
 window.toggleBulk = function() {
   const area = document.getElementById('bulkArea');
   const actions = document.getElementById('bulkActions');
@@ -245,16 +285,21 @@ window.toggleBulk = function() {
 window.bulkAdd = function() {
   const text = document.getElementById('bulkArea').value.trim();
   if (!text) return;
-  const lines = text.split(/[\n,;\s]+/).map(l => l.trim().toLowerCase()).filter(l => l && l.includes('.'));
+  
+  // Parse domains from any text format
+  const domains = parseDomains(text);
+  const org = document.getElementById('newOrg').value.trim();
+  
   let added = 0;
-  for (const d of lines) {
+  for (const d of domains) {
     if (scopes.find(s => s.domain === d)) continue;
-    scopes.push({ domain: d, isWildcard: document.getElementById('newType').value === 'wildcard', githubOrg: document.getElementById('newOrg').value.trim() });
+    scopes.push({ domain: d, isWildcard: isWildcardDomain(d), githubOrg: org });
     added++;
   }
   if (added) {
     if (activeIdx === -1 || activeIdx >= scopes.length - 1) activeIdx = scopes.length - 1;
     save(); saveActiveIdx(); renderAll();
+    showUndoToast(`Added ${added} domain${added > 1 ? 's' : ''} from bulk paste`);
   }
   document.getElementById('bulkArea').value = '';
   toggleBulk();
@@ -265,7 +310,7 @@ window.addScope = function() {
   const d = document.getElementById('newDomain').value.trim().toLowerCase();
   if (!d) return;
   if (scopes.find(s => s.domain === d)) { alert('Already added'); return; }
-  scopes.push({ domain: d, isWildcard: document.getElementById('newType').value === 'wildcard', githubOrg: document.getElementById('newOrg').value.trim() });
+  scopes.push({ domain: d, isWildcard: isWildcardDomain(d), githubOrg: document.getElementById('newOrg').value.trim() });
   document.getElementById('newDomain').value = ''; document.getElementById('newOrg').value = '';
   if (activeIdx === -1 || activeIdx >= scopes.length - 1) activeIdx = scopes.length - 1;
   save(); saveActiveIdx(); renderAll();
@@ -432,14 +477,22 @@ function renderAll() {
 
   // Tabs
   let tabsHtml = `<span class="tab all-tab ${activeIdx === -1 ? 'active' : ''}" onclick="setActive(-1)">🌐 All (${scopes.length})</span>`;
-  tabsHtml += scopes.map((s, i) =>
-    `<span class="tab ${activeIdx === i ? 'active' : ''}" onclick="setActive(${i})">
-      <span class="tab-type ${s.isWildcard ? 'tab-type-wc' : 'tab-type-ex'}">${s.isWildcard ? '*.WC' : 'EXACT'}</span>
+  tabsHtml += scopes.map((s, i) => {
+    let typeLabel, typeClass;
+    if (s.isWildcard) {
+      if (s.domain.startsWith('*.')) { typeLabel = '*.WC'; typeClass = 'tab-type-wc'; }
+      else if (s.domain.endsWith('.*')) { typeLabel = 'WC.*'; typeClass = 'tab-type-wc'; }
+      else { typeLabel = '*WC*'; typeClass = 'tab-type-wc'; }
+    } else {
+      typeLabel = 'EXACT'; typeClass = 'tab-type-ex';
+    }
+    return `<span class="tab ${activeIdx === i ? 'active' : ''}" onclick="setActive(${i})">
+      <span class="tab-type ${typeClass}">${typeLabel}</span>
       ${s.domain}
       ${s.githubOrg ? `<span class="tab-org">🐙${s.githubOrg}</span>` : ''}
       <span class="tab-rm" onclick="event.stopPropagation();removeScope(${i})">×</span>
-    </span>`
-  ).join('');
+    </span>`;
+  }).join('');
   document.getElementById('tabRow').innerHTML = tabsHtml;
 
   // Active indicator
