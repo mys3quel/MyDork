@@ -419,7 +419,7 @@ function genLinks(scopeList) {
         urlDomain = d.substring(2); // strip *. -> domain.com
       } else if (d.includes('*')) {
         wc = '';               // no CRT prefix for embedded wildcards
-        urlDomain = d.replace(/\*/g, '%2A'); // URL-encode embedded *
+        urlDomain = d.replace(/\*/g, '%25'); // CRT.sh uses % as wildcard, URL-encoded
       }
     }
 
